@@ -7,12 +7,13 @@ import Login from './pages/Login'
 import Post from './pages/Post'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import Profile from './pages/Profile'
 
 function App() {
 
   return (
     <Router>
-      <div className='bg-black text-white h-screen' >
+      <div className='bg-black text-white' >
         <Header/>
         
         <div className='font-roboto'>
@@ -21,6 +22,8 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/create-post" element={<Post/>}/>
+          <Route path="/profile" element={<Profile/>}/>
+
         </Routes>
       </div>
       <Footer/>

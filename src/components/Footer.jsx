@@ -1,20 +1,25 @@
-import React from 'react'
-import SocialIcons from './SocialIcon'
+import React from 'react';
+import SocialIcons from './SocialIcon';
 
 const Footer = () => {
   return (
-    <div className='flex md:justify-between px-4 border border-t border-indigo-800 py-4'>
-        <div><h1 className='font-bold text-2xl flex cursor-pointer'>CP <p className='text-blue-700'>03</p></h1></div>
-        <div>
-            <p className='md:font-semibold md:text-xl'>Created by Cp03 <span>, @2025</span></p>
-        </div>
-        <div>
-            <ul className=''>
-                <SocialIcons/>
-            </ul>            
-        </div>
-    </div>
-  )
-}
+    <footer className="flex flex-col md:flex-row items-center justify-between px-6 py-6 border-t border-blue-800 bg-black text-white">
+      <div className="flex items-center space-x-1 cursor-pointer">
+        <h1 className="font-bold text-2xl">CP</h1>
+        <p className="text-blue-500 font-semibold text-2xl">03</p>
+      </div>
 
-export default Footer
+      <div className="text-center md:text-left">
+        <p className="font-medium text-lg">
+          Created by Cp03 <span className="text-gray-400">@2025</span>
+        </p>
+      </div>
+
+      <div className="flex space-x-4 mt-4 md:mt-0">
+        <SocialIcons />
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

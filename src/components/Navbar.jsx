@@ -1,18 +1,50 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-  return (
-    <div>
-      <nav>
-        <ul className='flex text-md font-semibold'>
-          <Link to="/"><li className='mx-8 cursor-pointer hover:border px-2 py-1'>Home</li></Link>
-          <Link to="/login"><li className='mx-4 cursor-pointer hover:border px-2 py-1'>Sign In</li></Link>
-          <Link to="/create-post"><li className='mx-2 cursor-pointer hover:border px-2 py-1'>CREATE YOUR BLOG</li></Link>
-        </ul>
-      </nav>
-    </div>
-  )
-}
+  const [token, setToken] = useState(localStorage.getItem("authorization"));
+  const navigate = useNavigate();
 
-export default Navbar
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setToken(localStorage.getItem("authorization"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  const handleAuthClick = () => {
+    if (token) {
+      navigate("/profile");
+    } else {
+      navigate("/login");
+    }
+  };
+
+  return (
+    <nav className="bg-black text-white font-semibold shadow-md sticky top-0 z-50">
+      <div className="container mx-auto flex justify-between items-center">
+        {/* <Link to="/" className="text-xl font-bold">MyBlog</Link> */}
+        <ul className="hidden md:flex space-x-6 text-lg">
+          <Link to="/">
+            <li className='cursor-pointer hover:border px-3 py-2 rounded-lg'>Home</li>
+          </Link>
+          <li className='cursor-pointer hover:border px-3 py-2 rounded-lg' onClick={handleAuthClick}>
+            {token ? "Profile" : "Sign In"}
+          </li>
+          <Link to="/create-post">
+            <li className='cursor-pointer hover:border px-3 py-2 rounded-lg'>Create Your Blog</li>
+          </Link>
+        </ul>
+        <div className="md:hidden flex items-center">
+          <button className="text-xl" onClick={handleAuthClick}>
+            {token ? "Profile" : "Sign In"}
+          </button>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
