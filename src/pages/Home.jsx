@@ -1,6 +1,6 @@
 import React from 'react';
-import Postcard from '../components/Postcard';
 import { useNavigate } from 'react-router-dom';
+import Postcard from '../components/PostCard';
 
 const Home = () => {
   const navigate = useNavigate()
