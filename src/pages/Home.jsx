@@ -1,22 +1,30 @@
-import React from 'react'
-import Postcard from '../components/Postcard'
+import React from 'react';
+import Postcard from '../components/Postcard';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate()
   return (
     <>
-      <div className='text-center my-16 text-2xl'>
-        <h1 className='md:text-4xl text-3xl font-bold my-2'>Lorem ipsum dolor sit amet.</h1>
-        <p className='font-semibold text-md text-gray-400'>Create a unique and beautiful blog easily.</p>
+      <div className="flex flex-col items-center justify-center text-center py-12">
+        <h1 className="md:text-5xl text-3xl font-extrabold my-4 drop-shadow-lg">
+          Share Your Thoughts with the World
+        </h1>
+        <p className="font-medium text-lg md:text-2xl  text-gray-200">
+          Create a unique and beautiful blog easily.
+        </p>
 
-        <button className='my-4 border border-cyan-500 p-4 cursor-pointer shadow-md shadow-cyan-600 active:scale-95'>CREATE YOUR BLOG</button>
+        <button className="mt-6 border text-cyan-600 font-bold text-xl px-6 py-3 rounded-lg cursor-pointer shadow-blue-700
+           hover:text-white transition-all duration-300 shadow-md active:scale-95" onClick={() => navigate("/create-post")}>
+          CREATE YOUR BLOG
+        </button>
       </div>
-      <div>
-        <Postcard/>
+
+      <div className="">
+        <Postcard />
       </div>
     </>
-    
-    
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
