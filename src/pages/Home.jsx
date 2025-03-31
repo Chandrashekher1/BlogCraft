@@ -1,7 +1,6 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Postcard from '../components/PostCard';
-
+import React from 'react';
 const Home = () => {
   const navigate = useNavigate()
   return (
