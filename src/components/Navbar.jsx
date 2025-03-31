@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [token, setToken] = useState(localStorage.getItem("authorization"));
   const navigate = useNavigate();
+  const topRef = useRef(null)
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -15,11 +16,16 @@ const Navbar = () => {
   }, []);
 
   const handleAuthClick = () => {
+    scrollToTop()
     if (token) {
       navigate("/profile");
     } else {
       navigate("/login");
     }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({top:0, behavior: 'smooth' });
   };
 
   return (
@@ -28,17 +34,17 @@ const Navbar = () => {
         {/* <Link to="/" className="text-xl font-bold">MyBlog</Link> */}
         <ul className="hidden md:flex space-x-6 text-lg">
           <Link to="/">
-            <li className='cursor-pointer hover:border px-3 py-2 rounded-lg'>Home</li>
+            <li className='cursor-pointer hover:border px-3 py-2 rounded-lg' onClick={scrollToTop} ref={topRef}>Home</li>
           </Link>
           <li className='cursor-pointer hover:border px-3 py-2 rounded-lg' onClick={handleAuthClick}>
             {token ? "Profile" : "Sign In"}
           </li>
-          <Link to="/create-post">
+          <Link to="/create-post" onClick={scrollToTop}>
             <li className='cursor-pointer hover:border px-3 py-2 rounded-lg'>Create Your Blog</li>
           </Link>
         </ul>
-        <div className="md:hidden flex items-center">
-          <button className="text-xl" onClick={handleAuthClick}>
+        <div className="md:hidden  flex items-center">
+          <button className="text-xl md:hidden" onClick={handleAuthClick}>
             {token ? "Profile" : "Sign In"}
           </button>
         </div>
