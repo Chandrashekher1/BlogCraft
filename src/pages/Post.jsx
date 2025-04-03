@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { post_API } from '../utils/constant';
 
 const Post = () => {
   const [title, setTitle] = useState('');
@@ -16,22 +17,25 @@ const Post = () => {
       setMessage({ type: 'error', text: "Please log in first." });
       return;
     }
-    if (!title || !content || !author || !tags || !media) {
+    if (!title || !content || !author || !media) {
       setMessage({ type: 'error', text: "All fields are required!" });
       return;
     }
     setLoading(true);
 
     try {
-      const response = await fetch("https://cp-blog.onrender.com/api/post", {
+      const response = await fetch(post_API, {
         method: "POST",
         headers: {
           "Authorization": `${token}`, 
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ title, content, author, tags, media })
+        body: JSON.stringify({ title, content, author, tags: tags.split(",").map(tag => tag.trim()), media: { url: media } })
       });
-      const json = await response.json();
+
+      console.log(response);
+      
+      const json = await response.json()
       if (!response.ok) {
         throw new Error(json.message || "Failed to create post");
       }
@@ -95,7 +99,7 @@ const Post = () => {
           />
 
           <input 
-            type="url" 
+            type="text" 
             value={media} 
             onChange={(e) => setMedia(e.target.value)}
             placeholder="Media URL (image or video)" 
@@ -140,4 +144,4 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default Post
