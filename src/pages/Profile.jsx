@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { profile_APi } from '../utils/constant';
 
 const Profile = () => {
     const token = localStorage.getItem("authorization");
-    const [data, setData] = useState(null); // Initially null for proper conditional rendering
+    const [data, setData] = useState(null); 
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -14,7 +15,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("https://cp-blog.onrender.com/api/user/me", {
+                const response = await fetch(profile_APi, {
                     method: "GET",
                     headers: {
                         "Authorization": `${token}`,
