@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Login_API, Register_API } from "../utils/constant";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -16,10 +17,10 @@ const Login = () => {
     setMessage("");
     try {
       const url = isSignIn
-        ? "https://cp-blog.onrender.com/api/user"
-        : "https://cp-blog.onrender.com/api/login";
+        ? Register_API
+        : Login_API;
       const method = "POST";
-      const body = isSignIn ? { name, email, password } : { email, password };
+      const body = isSignIn ? { name:name, email, password } : { email, password };
 
       const response = await fetch(url, {
         method,
@@ -27,14 +28,22 @@ const Login = () => {
         body: JSON.stringify(body),
       });
 
-      if (!response.ok) {
+      const json = await response.json();
+        localStorage.setItem("userId", json._id)
+      if (!response.ok) { 
         const errorData = await response.json();
         throw new Error(errorData.message || "Operation failed");
-      }
+    } 
+    // else {
+    //     const json = await response.json();
+    //     localStorage.setItem("userId", json._id)
+    // }
+    
 
       const token = response.headers.get("authorization");
       if (token) {
         localStorage.setItem("authorization", token);
+        localStorage.setItem("userId", json._id)
         navigate("/profile");
       } else {
         throw new Error("No token received from server");
