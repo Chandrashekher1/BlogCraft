@@ -8,14 +8,13 @@ import Post from './pages/Post'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Profile from './pages/Profile'
+import PostView from './pages/PostView'
 
 function App() {
-
   return (
     <Router>
       <div className='bg-black text-white' >
         <Header/>
-        
         <div className='font-roboto'>
         <Routes>
           <Route path="/" element={<Home/>}/>
@@ -23,6 +22,7 @@ function App() {
           <Route path="/register" element={<Register/>}/>
           <Route path="/create-post" element={<Post/>}/>
           <Route path="/profile" element={<Profile/>}/>
+          <Route path="/post-view/:id" element={<PostView/>}/>
 
         </Routes>
       </div>

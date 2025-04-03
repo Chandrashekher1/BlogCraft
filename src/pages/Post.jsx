@@ -33,8 +33,6 @@ const Post = () => {
         body: JSON.stringify({ title, content, author, tags: tags.split(",").map(tag => tag.trim()), media: { url: media } })
       });
 
-      console.log(response);
-      
       const json = await response.json()
       if (!response.ok) {
         throw new Error(json.message || "Failed to create post");
