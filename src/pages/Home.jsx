@@ -3,6 +3,7 @@ import Postcard from '../components/PostCard';
 import React from 'react';
 const Home = () => {
   const navigate = useNavigate()
+  const postId = "12345"
   return (
     <>
       <div className="flex flex-col items-center justify-center text-center py-12">
@@ -20,7 +21,7 @@ const Home = () => {
       </div>
 
       <div className="">
-        <Postcard />
+        <Postcard  postId={postId}/>
       </div>
     </>
   );
