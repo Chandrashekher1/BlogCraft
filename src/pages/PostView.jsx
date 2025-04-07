@@ -1,14 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { post_API } from "../utils/constant";
+import React, { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import { post_API } from "../utils/constant"
+import { Skeleton, Box, Typography, Stack } from '@mui/material';
+import Shimmer from "../components/Shimmer";
+
 
 const PostView = () => {
   const { id } = useParams();
   const [postData, setPostData] = useState(null);
   const token = localStorage.getItem("authorization");
+  const navigate = useNavigate()
 
+  const handlenavigate = () => {
+    navigate('/login')
+  }
   useEffect(() => {
-    if (!id) return;
+    if (!id || !token) {
+      handlenavigate()
+      return
+    }
 
     const fetchPost = async () => {
       try {
@@ -22,8 +32,6 @@ const PostView = () => {
         if (!response.ok) throw new Error("Failed to fetch");
 
         const postJson = await response.json();
-        console.log(postJson);
-
         setPostData(postJson);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -31,16 +39,18 @@ const PostView = () => {
     };
 
     fetchPost();
-  }, [id]);
+  }, [id,token])
 
   if (!postData) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <h1 className="text-3xl font-semibold">Loading...</h1>
+      <div className="h-screen" >
+        {/* <h1 className="font-semibold text-4xl text-gray-400">Loading....</h1> */}
+        <Shimmer/>
       </div>
-    );
+    )
   }
-
+  
+  
   return (
     <div className="max-w-6xl mx-auto p-4">
       <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-6">
@@ -55,8 +65,6 @@ const PostView = () => {
           className="w-full h-80 object-cover rounded-lg shadow-lg"
         />
       </div>
-
-      {/* Author & Date */}
       <div className="mt-6">
         <p className="text-xl font-semibold">
           Written By: <span className="text-cyan-600 font-bold">{postData.author || "Unknown"}</span>
