@@ -1,13 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import Postcard from '../components/PostCard';
 import React from 'react';
+
 const Home = () => {
   const navigate = useNavigate()
-  const postId = "12345"
+
+
+
   return (
     <>
       <div className="flex flex-col items-center justify-center text-center py-12">
         <h1 className="md:text-5xl text-3xl font-extrabold my-4 drop-shadow-lg">
+        
           Share Your Thoughts with the World
         </h1>
         <p className="font-medium text-lg md:text-2xl  text-gray-200">
@@ -21,7 +25,7 @@ const Home = () => {
       </div>
 
       <div className="">
-        <Postcard  postId={postId}/>
+        <Postcard/>
       </div>
     </>
   );
