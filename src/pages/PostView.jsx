@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { post_API } from "../utils/constant"
-import { Skeleton, Box, Typography, Stack } from '@mui/material';
 import Shimmer from "../components/Shimmer";
 
 
@@ -44,7 +43,6 @@ const PostView = () => {
   if (!postData) {
     return (
       <div className="h-screen" >
-        {/* <h1 className="font-semibold text-4xl text-gray-400">Loading....</h1> */}
         <Shimmer/>
       </div>
     )
