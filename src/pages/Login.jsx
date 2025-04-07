@@ -28,23 +28,16 @@ const Login = () => {
         body: JSON.stringify(body),
       });
 
-      const json = await response.json();
-        localStorage.setItem("userId", json._id)
       if (!response.ok) { 
         const errorData = await response.json();
         throw new Error(errorData.message || "Operation failed");
     } 
-    // else {
-    //     const json = await response.json();
-    //     localStorage.setItem("userId", json._id)
-    // }
-    
-
       const token = response.headers.get("authorization");
       if (token) {
         localStorage.setItem("authorization", token);
-        localStorage.setItem("userId", json._id)
-        navigate("/profile");
+        navigate("/profile")
+        location.reload()
+
       } else {
         throw new Error("No token received from server");
       }
@@ -92,7 +85,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             className="border px-4 py-2 border-cyan-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-500 transition-all"
           />
-          {message && <p className="text-red-500 text-sm mt-2">{message}</p>}
+          {message && <p className="text-red-500 text-lg mx-2 mt-2">{message}</p>}
 
           <button
             type="submit"
