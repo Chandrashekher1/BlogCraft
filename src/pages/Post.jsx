@@ -46,7 +46,7 @@ const Post = () => {
       setMedia('');
 
     } catch (error) {
-      setMessage({ type: 'error', text: error.message });
+      setMessage({ type: 'error', text: "Please pass a valid Media URL" });
       console.error("Error creating post:", error);
     } finally {
       setLoading(false);
