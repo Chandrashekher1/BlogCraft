@@ -9,8 +9,20 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Profile from './pages/Profile'
 import PostView from './pages/PostView'
+import useOnlineStatus from './utils/useOnlinestatus'
 
 function App() {
+
+  const onlineStatus = useOnlineStatus()
+
+  if(onlineStatus === false) {
+    return (
+      <div className='h-screen text-center flex flex-col justify-center items-center'>
+        <h1 className='text-center text-4xl'>Oops! You have lost your internet connection</h1>
+      </div>
+    )
+  }
+
   return (
     <Router>
       <div className='bg-black text-white' >
