@@ -3,14 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { profile_APi } from '../utils/constant';
 
 const Profile = () => {
-    const token = localStorage.getItem("authorization");
-    const [data, setData] = useState(null); 
-    const navigate = useNavigate();
+    const token = localStorage.getItem("authorization")
+    const [data, setData] = useState(null)
+    const navigate = useNavigate()
 
     const handleLogout = () => {
-        localStorage.removeItem("authorization");
-        navigate("/login");
-    };
+        localStorage.removeItem("authorization")
+        navigate("/login")
+        location.reload()
+    }
 
     useEffect(() => {
         const fetchData = async () => {
