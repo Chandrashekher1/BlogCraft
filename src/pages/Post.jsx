@@ -5,8 +5,6 @@ const Post = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
-  const [tags, setTags] = useState('');
-  const [media, setMedia] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
@@ -17,7 +15,7 @@ const Post = () => {
       setMessage({ type: 'error', text: "Please log in first." });
       return;
     }
-    if (!title || !content || !author || !media) {
+    if (!title || !content || !author ) {
       setMessage({ type: 'error', text: "All fields are required!" });
       return;
     }
@@ -30,7 +28,7 @@ const Post = () => {
           "Authorization": `${token}`, 
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ title, content, author, tags: tags.split(",").map(tag => tag.trim()), media: { url: media } })
+        body: JSON.stringify({ title, content, author})
       });
 
       const json = await response.json()
@@ -42,11 +40,9 @@ const Post = () => {
       setTitle('');
       setContent('');
       setAuthor('');
-      setTags('');
-      setMedia('');
-
+     
     } catch (error) {
-      setMessage({ type: 'error', text: "Please pass a valid Media URL" });
+      setMessage({ type: 'error', text: error.message });
       console.error("Error creating post:", error);
     } finally {
       setLoading(false);
@@ -88,21 +84,9 @@ const Post = () => {
             className="p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
 
-          <input 
-            type="text" 
-            value={tags} 
-            onChange={(e) => setTags(e.target.value)}
-            placeholder="Tags (comma separated)" 
-            className="p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-          />
+        
 
-          <input 
-            type="text" 
-            value={media} 
-            onChange={(e) => setMedia(e.target.value)}
-            placeholder="Media URL (image or video)" 
-            className="p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-          />
+        
 
           <button 
             onClick={handleData} 
@@ -116,12 +100,11 @@ const Post = () => {
         </div>
       </div>
 
-      {(title || content || media) && (
+      {(title || content  ) && (
         <div className="w-full max-w-3xl bg-gray-800 mt-8 p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold">{title || "Post Title Preview"}</h2>
           <p className="mt-2 text-gray-300">{content || "Post content will appear here..."}</p>
           <p className="mt-2 text-sm italic text-gray-400">{author ? `By ${author}` : "Author Name"}</p>
-          <p className="mt-2 text-sm text-gray-400">{tags ? `Tags: ${tags}` : "Tags will appear here"}</p>
 
           {/* {media && (
             <div className="mt-4">
