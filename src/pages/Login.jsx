@@ -27,6 +27,10 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+    
+      
+      const userId = await response.json()
+      localStorage.setItem("userId",userId._id)
 
       if (!response.ok) { 
         const errorData = await response.json();
