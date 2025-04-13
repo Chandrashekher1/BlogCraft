@@ -34,13 +34,13 @@ const Navbar = () => {
         {/* <Link to="/" className="text-xl font-bold">MyBlog</Link> */}
         <ul className="hidden md:flex space-x-6 text-lg">
           <Link to="/">
-            <li className='cursor-pointer hover:border px-3 py-2 rounded-lg' onClick={scrollToTop} ref={topRef}>Home</li>
+            <li className='cursor-pointer hover:border border-cyan-600 px-3 py-2 rounded-lg' onClick={scrollToTop} ref={topRef}>Home</li>
           </Link>
-          <li className='cursor-pointer hover:border px-3 py-2 rounded-lg' onClick={handleAuthClick}>
+          <li className='cursor-pointer hover:border border-cyan-600 px-3 py-2 rounded-lg' onClick={handleAuthClick}>
             {token ? "Profile" : "Sign In"}
           </li>
           <Link to="/create-post" onClick={scrollToTop}>
-            <li className='cursor-pointer hover:border px-3 py-2 rounded-lg'>Create Your Blog</li>
+            <li className='cursor-pointer hover:border border-cyan-600 px-3 py-2 rounded-lg'>Create Your Blog</li>
           </Link>
         </ul>
         <div className="md:hidden  flex items-center">

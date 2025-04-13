@@ -47,7 +47,7 @@ const Postcard = () => {
           <div 
             key={post._id} 
             onClick={() => handlePostClick(post._id)} 
-            className="border border-gray-700 bg-gray-900 bg-opacity-70 
+            className="border border-gray-700 bg-gray-900 bg-opacity-70 h-[60%]
             p-6 m-4 shadow-lg backdrop-blur-md w-full sm:w-80 rounded-xl transition-all 
             hover:scale-105 hover:shadow-xl cursor-pointer text-white active:scale-100"
           >
@@ -58,7 +58,7 @@ const Postcard = () => {
             />
             <h1 className="text-lg sm:text-xl font-bold mt-4">{post.title}</h1>
             <h2 className="text-sm text-gray-400 mt-1">By {post.author}</h2>
-            <p className="mt-2 text-gray-300">{post.content.slice(0, 100)}...</p>
+            <p className="mt-2 text-gray-300 ">{post.content.slice(0, 100)} <span className='text-lg text-cyan-700'>... Read more...</span></p>
           </div>
         ))
       ) : (
