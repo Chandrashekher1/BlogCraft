@@ -76,13 +76,13 @@ const Profile = () => {
   const handleTogglePosts = () => {
     setIsShowPosts(!isShowPosts);
     if (!isShowPosts) {
-      fetchUserPosts();
+      fetchUserPosts()
     }
   };
 
   useEffect(() => {
     fetchUserData();
-    // fetchUserPosts();
+    fetchUserPosts();
   }, []);
 
   return (
