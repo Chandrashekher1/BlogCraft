@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { post_API } from '../utils/constant';
+import JoditEditor from 'jodit-react';
 
 const Post = () => {
   const [title, setTitle] = useState('');
@@ -8,9 +9,11 @@ const Post = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
+  console.log(content);
+  
+
   const handleData = async () => {
     const token = localStorage.getItem("authorization");
-    
     if (!token) {
       setMessage({ type: 'error', text: "Please log in first." });
       return;
@@ -20,7 +23,6 @@ const Post = () => {
       return;
     }
     setLoading(true);
-
     try {
       const response = await fetch(post_API, {
         method: "POST",
@@ -75,7 +77,25 @@ const Post = () => {
             placeholder="Write your post..." 
             className="p-2 rounded bg-gray-700 text-white h-32 focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
+          {/* <JoditEditor 
+            // dangerouslySetInnerHTML={{ __html: content }}
+              ref ={editor}
+              // value={content}
+              // tabIndex={1}
+              config={{
+                readonly: false,
+                theme: 'dark', 
+                style: {
+                  background: '#1f2937',
+                  color: 'white',
+                  minHeight: '200px',
+                  padding: '10px',
+                },
+              }}
+              onBlur={newContent => setContent(newContent)}
+              // onChange={newContent => setContent(newContent)}
 
+          /> */}
           <input 
             type="text" 
             value={author} 
@@ -83,11 +103,6 @@ const Post = () => {
             placeholder="Author" 
             className="p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
-
-        
-
-        
-
           <button 
             onClick={handleData} 
             disabled={loading}
