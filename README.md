@@ -24,6 +24,8 @@ A full-stack blogging platform where users can create, view, and manage posts. B
 - Deployment : Vercel and Render
 
 # View
+![image](https://github.com/user-attachments/assets/c67cb0b4-5e04-4495-a9c9-d711b28d19a0)
+
 
 # Getting Started
  Prerequisites
