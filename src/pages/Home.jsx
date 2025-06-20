@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Postcard from '../components/PostCard';
 import React from 'react';
+import {motion} from 'framer-motion'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -9,7 +10,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center text-center py-12">
+      <div className="flex flex-col items-center justify-center text-center py-12 bg-gradient-to-r from-blue-200 to-purple-500">
         <h1 className="md:text-5xl text-3xl font-extrabold my-4 drop-shadow-lg">
         
           Share Your Thoughts with the World
@@ -23,6 +24,18 @@ const Home = () => {
           CREATE YOUR BLOG
         </button>
       </div>
+      <motion.div className='px-40 my-16'  whileHover={{
+        scale: 1.05,
+        rotateX: 10,
+        rotateY: -10,
+        transition: { type: 'spring', stiffness: 300, damping: 15 }
+      }}>
+        <img 
+          src="https://res.cloudinary.com/dt9a9xhz1/image/upload/v1750410254/Blog_cqjl4v.png" 
+          alt="Home"
+          className='shadow-2xl shadow-blue-400 bg-gradient-to-r from-blue-500 to-purple-500'
+          />
+      </motion.div>
 
       <div className="">
         <Postcard/>
