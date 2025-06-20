@@ -14,7 +14,8 @@ const Postcard = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }
-        const json = await response.json();
+        const json = await response.json()
+        console.log(json);
         setData(json);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -52,7 +53,7 @@ const Postcard = () => {
             hover:scale-105 hover:shadow-xl cursor-pointer text-white active:scale-100"
           >
             <img 
-              src="https://www.hexaphortechnologies.co.in/service_img/1687797021.png" 
+              src={post?.image?.length > 0 ? post.image[0] : "https://www.hexaphortechnologies.co.in/service_img/1687797021.png"}
               alt="Post Thumbnail" 
               className="w-full h-40 object-cover rounded-lg"
             />
