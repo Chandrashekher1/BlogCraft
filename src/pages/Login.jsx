@@ -8,48 +8,60 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [image,setImage] = useState(null)
   const navigate = useNavigate();
 
   const handleSignUp = () => setIsSignIn(!isSignIn);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage("");
-    try {
-      const url = isSignIn
-        ? Register_API
-        : Login_API;
-      const method = "POST";
-      const body = isSignIn ? { name:name, email, password } : { email, password };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setMessage("");
 
-      const response = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+  try {
+    let response;
+    const url = isSignIn ? Register_API : Login_API;
+
+    if (isSignIn) {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("profile", image);
+
+      response = await fetch(url, {
+        method: "POST",
+        body: formData,
       });
-    
-      
-      const userId = await response.json()
-      localStorage.setItem("userId",userId._id)
-
-      if (!response.ok) { 
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Operation failed");
-    } 
-      const token = response.headers.get("authorization");
-      if (token) {
-        localStorage.setItem("authorization", token);
-        navigate("/profile")
-        location.reload()
-
-      } else {
-        throw new Error("No token received from server");
-      }
-    } catch (error) {
-      console.error("Error:", error.message);
-      setMessage(error.message);
+    } else {
+      response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
     }
-  };
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Operation failed");
+    }
+
+    const token = response.headers.get("authorization");
+    if (token) {
+      localStorage.setItem("authorization", token);
+      localStorage.setItem("userId", data._id); 
+      navigate("/profile");
+      location.reload();
+    } else {
+      throw new Error("No token received from server");
+    }
+  } catch (error) {
+    console.error("Error:", error.message);
+    setMessage(error.message);
+  }
+};
 
   return (
     <div className="h-screen flex items-center justify-center bg-black px-4">
@@ -89,6 +101,14 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             className="border px-4 py-2 border-cyan-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-500 transition-all"
           />
+          {isSignIn && <label className="font-semibold text-lg my-2">Profile Image</label>}
+          {isSignIn && <input
+            type="file"
+            required
+            placeholder="Upload  your profile image.."
+            onChange={(e) => setImage(e.target.files[0])}
+            className="border px-4 py-2 border-cyan-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-500 transition-all"
+          />}
           {message && <p className="text-red-500 text-lg mx-2 mt-2">{message}</p>}
 
           <button
