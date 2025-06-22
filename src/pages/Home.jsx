@@ -24,7 +24,7 @@ const Home = () => {
           CREATE YOUR BLOG
         </button>
       </div>
-      <motion.div className='px-40 my-16'  whileHover={{
+      <motion.div className='md:px-40 my-16 mx-4'  whileHover={{
         scale: 1.05,
         rotateX: 10,
         rotateY: -10,
@@ -33,7 +33,7 @@ const Home = () => {
         <img 
           src="https://res.cloudinary.com/dt9a9xhz1/image/upload/v1750410254/Blog_cqjl4v.png" 
           alt="Home"
-          className='shadow-2xl shadow-blue-400 bg-gradient-to-r from-blue-500 to-purple-500'
+          className='shadow-2xl shadow-blue-400 bg-gradient-to-r from-blue-500 to-purple-500  '
           />
       </motion.div>
 
