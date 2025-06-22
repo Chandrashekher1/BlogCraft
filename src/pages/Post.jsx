@@ -8,10 +8,7 @@ const Post = () => {
   const [author, setAuthor] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
-
-  console.log(content);
-  
-
+  const [images,setImages] = useState('')
   const handleData = async () => {
     const token = localStorage.getItem("authorization");
     if (!token) {
@@ -22,15 +19,25 @@ const Post = () => {
       setMessage({ type: 'error', text: "All fields are required!" });
       return;
     }
-    setLoading(true);
+    setLoading(true)
+
     try {
+      const formData = new FormData()
+      formData.append("title",title)
+      formData.append("content",content)
+      formData.append("author",author)
+
+      images.forEach((img) => {
+        formData.append('blog',img)
+      })
+
+      // formData.append("blog",images)
       const response = await fetch(post_API, {
         method: "POST",
         headers: {
           "Authorization": `${token}`, 
-          "Content-Type": "application/json"
         },
-        body: JSON.stringify({ title, content, author})
+        body: formData
       });
 
       const json = await response.json()
@@ -42,6 +49,7 @@ const Post = () => {
       setTitle('');
       setContent('');
       setAuthor('');
+      setImages(null)
      
     } catch (error) {
       setMessage({ type: 'error', text: error.message });
@@ -102,6 +110,13 @@ const Post = () => {
             onChange={(e) => setAuthor(e.target.value)}
             placeholder="Author" 
             className="p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <input 
+            type="file" 
+            multiple
+            accept='image/*'
+            onChange={(e) => setImages([...e.target.files])}
+            className='p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600'
           />
           <button 
             onClick={handleData} 
