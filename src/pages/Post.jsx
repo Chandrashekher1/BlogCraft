@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { post_API } from '../utils/constant';
-import JoditEditor from 'jodit-react';
+import TipTapEditor from '../components/TipTapEditor';
 
 const Post = () => {
   const [title, setTitle] = useState('');
@@ -9,6 +9,11 @@ const Post = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [images,setImages] = useState('')
+  const stripHtmlTags = (html) => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = html;
+    return tempDiv.textContent || tempDiv.innerText || "";
+  };
   const handleData = async () => {
     const token = localStorage.getItem("authorization");
     if (!token) {
@@ -60,8 +65,8 @@ const Post = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-950 text-white p-6">
-      <div className="w-full max-w-3xl bg-gray-800 p-6 rounded-lg shadow-lg">
+    <div className="min-h-screen flex flex-col items-center  text-white p-6">
+      <div className="w-full max-w-3xl p-6 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center mb-4">Create a New Post</h1>
 
         {message && (
@@ -69,71 +74,58 @@ const Post = () => {
             {message.text}
           </p>
         )}
-
         <div className="flex flex-col space-y-4">
           <input 
             type="text" 
             value={title} 
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Title" 
-            className="p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="px-4 py-4 rounded-lg bg-gray-700 text-white border border-cyan-800 active:outline-none focus:outline-none"
           />
 
-          <textarea 
+          {/* <textarea 
             value={content} 
             onChange={(e) => setContent(e.target.value)}
             placeholder="Write your post..." 
             className="p-2 rounded bg-gray-700 text-white h-32 focus:outline-none focus:ring-2 focus:ring-blue-600"
-          />
-          {/* <JoditEditor 
-            // dangerouslySetInnerHTML={{ __html: content }}
-              ref ={editor}
-              // value={content}
-              // tabIndex={1}
-              config={{
-                readonly: false,
-                theme: 'dark', 
-                style: {
-                  background: '#1f2937',
-                  color: 'white',
-                  minHeight: '200px',
-                  padding: '10px',
-                },
-              }}
-              onBlur={newContent => setContent(newContent)}
-              // onChange={newContent => setContent(newContent)}
-
           /> */}
+         <TipTapEditor content={content} setContent={setContent} />
+
           <input 
             type="text" 
             value={author} 
             onChange={(e) => setAuthor(e.target.value)}
             placeholder="Author" 
-            className="p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="p-2 rounded bg-gray-700 text-white focus:outline-none  border border-cyan-700"
           />
           <input 
             type="file" 
             multiple
             accept='image/*'
+            placeholder='Upload blog images'
             onChange={(e) => setImages([...e.target.files])}
-            className='p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600'
+            className='p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600 border border-cyan-600'
           />
-          <button 
-            onClick={handleData} 
-            disabled={loading}
-            className={`p-2 rounded font-bold transition-colors ${
-              loading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            {loading ? "Submitting..." : "Submit Post"}
+          <div>
+            <button className=' px-4 py-2 font-semibold cursor-pointer bg-gray-900 rounded-md active:scale-95'>Save Draft</button>
+            <button 
+              onClick={handleData} 
+              disabled={loading}
+              className={`py-2 px-6 rounded font-semibold transition-colors cursor-pointer mx-4 active:scale-95 ${
+                loading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+            {loading ? "Publishing..." : "Publish"}
           </button>
+          </div>
+          
         </div>
       </div>
 
       {(title || content  ) && (
         <div className="w-full max-w-3xl bg-gray-800 mt-8 p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold">{title || "Post Title Preview"}</h2>
-          <p className="mt-2 text-gray-300">{content || "Post content will appear here..."}</p>
+          <p className="mt-2 text-gray-300">{stripHtmlTags(content) || "Post content will appear here..."}</p>
           <p className="mt-2 text-sm italic text-gray-400">{author ? `By ${author}` : "Author Name"}</p>
 
           {/* {media && (
