@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { post_API } from "../utils/constant"
+import { post_API, sample_image } from "../utils/constant"
 import Shimmer from "../components/Shimmer";
+import { AiFillHeart } from "react-icons/ai"
+import { AiOutlineComment } from "react-icons/ai"
+
 
 
 const PostView = () => {
@@ -47,41 +50,42 @@ const PostView = () => {
       </div>
     )
   }
-  
-  
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-6">
+    <div className="max-w-6xl mx-auto p-4 min-h-screen">
+      <div className="flex flex-col  justify-between items-start gap-6 mb-6">
         <h1 className="text-3xl md:text-4xl font-bold flex-1">{postData.title}</h1>
-        {/* <p className="text-lg flex-1 md:text-2xl">{postData.content}</p> */}
+        <p className="text-xl font-semibold -mt-4">
+          By: <span className="text-cyan-600 font-semibold">{postData.author || "Unknown"}</span>
+        </p>
+        <p className="text-lg font-medium text-gray-600 -mt-4">Date: {postData.date || "Not Available"}</p>
       </div>
-    <div className="flex flex-col md:flex-row gap-8">
-      <div className="flex-1 space-y-4">
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-wrap">
         {Array.isArray(postData.image) && postData.image.length > 0 ? (
           postData.image.map((imgUrl, index) => (
             <img
               key={index}
               src={imgUrl}
               alt={`Post Image ${index + 1}`}
-              className="w-full object-cover rounded-lg shadow-md max-h-80"
+              className="w-96 object-cover rounded-lg shadow-md max-h-80 mx-4 my-2"
             />
           ))
         ) : (
           <img
-            src="https://marketinginsidergroup.com/wp-content/uploads/2023/09/shutterstock_234456937-scaled-1.jpg"
+            src={sample_image}
             alt="Default Post"
-            className="w-full h-80 object-cover rounded-lg shadow-md"
+            className="w-96 h-80 object-cover rounded-lg shadow-md"
           />
         )}
     </div>
-    <div className="flex-1">
-      <p className="text-lg md:text-2xl mb-4">{postData.content}</p>
-      <p className="text-xl font-semibold">
-        Written By: <span className="text-cyan-600 font-bold">{postData.author || "Unknown"}</span>
-      </p>
-      <p className="text-lg font-medium text-gray-600">Date: {postData.date || "Not Available"}</p>
+    <div className="flex">
+      <p className="text-lg md:text-2xl mb-4 text-wrap mx-4">{postData.content}</p>
     </div>
-      </div>
+     <div className="flex gap-4 items-center mt-2">
+      <AiFillHeart className="text-red-500 text-4xl cursor-pointer" />
+      <AiOutlineComment className="text-gray-600 text-4xl cursor-pointer" />
+    </div>
+    </div>
     </div>
   );
 };
