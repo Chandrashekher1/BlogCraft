@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-  const [token, setToken] = useState(localStorage.getItem("authorization"));
-  const navigate = useNavigate();
+  const [token, setToken] = useState(localStorage.getItem("authorization"))
+  const navigate = useNavigate()
   const topRef = useRef(null)
 
   useEffect(() => {
@@ -36,12 +36,18 @@ const Navbar = () => {
           <Link to="/">
             <li className='cursor-pointer hover:border border-cyan-600 px-3 py-2 rounded-lg' onClick={scrollToTop} ref={topRef}>Home</li>
           </Link>
+          <Link to="/">
+            <li className='cursor-pointer hover:border border-cyan-600 px-3 py-2 rounded-lg' onClick={scrollToTop} ref={topRef}>About</li>
+          </Link>
+          <Link to="/">
+            <li className='cursor-pointer hover:border border-cyan-600 px-3 py-2 rounded-lg' onClick={scrollToTop} ref={topRef}>Contact</li>
+          </Link>
+          <Link to="/create-post" onClick={scrollToTop}>
+            <li className='cursor-pointer px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 active:scale-95'>New Post</li>
+          </Link>
           <li className='cursor-pointer hover:border border-cyan-600 px-3 py-2 rounded-lg' onClick={handleAuthClick}>
             {token ? "Profile" : "Sign In"}
           </li>
-          <Link to="/create-post" onClick={scrollToTop}>
-            <li className='cursor-pointer hover:border border-cyan-600 px-3 py-2 rounded-lg'>Create Your Blog</li>
-          </Link>
         </ul>
         <div className="md:hidden  flex items-center">
           <button className="text-xl md:hidden" onClick={handleAuthClick}>
@@ -51,6 +57,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
+}
 
-export default Navbar;
+export default Navbar
