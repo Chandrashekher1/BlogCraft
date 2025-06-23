@@ -25,7 +25,7 @@ const Header = () => {
     
 
   return (
-    <div className={`flex justify-between p-4  shadow-md sticky top-0 bg-black ${isShrunk ? 'z-50':'null' }`}>
+    <div className={`flex justify-between p-4  shadow-md sticky top-0 bg-black border-b border-b-gray-800 ${isShrunk ? 'z-50':'null' }`}>
       <div>
         <h1 className='font-bold text-2xl cursor-pointer flex' onClick={handleLogo} >Vibe<p className='text-blue-700'>Script</p></h1>
       </div>
