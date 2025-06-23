@@ -1,0 +1,67 @@
+import React from 'react';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+
+const MenuBar = ({ editor }) => {
+  if (!editor) return null;
+
+  return (
+    <div className="flex gap-2 flex-wrap mb-4 ">
+      <button onClick={() => editor.chain().focus().toggleBold().run()}
+        className={`px-3 py-1 rounded ${editor.isActive('bold') ? 'bg-blue-600 text-white' : 'bg-gray-600'}`}>
+        Bold
+      </button>
+      <button onClick={() => editor.chain().focus().toggleItalic().run()}
+        className={`px-3 py-1 rounded ${editor.isActive('italic') ? 'bg-blue-600 text-white' : 'bg-gray-600'}`}>
+        Italic
+      </button>
+      <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+        className={`px-3 py-1 rounded ${editor.isActive('heading', { level: 1 }) ? 'bg-blue-600 text-white' : 'bg-gray-600'}`}>
+        H1
+      </button>
+      <button onClick={() => editor.chain().focus().toggleBulletList().run()}
+        className={`px-3 py-1 rounded ${editor.isActive('bulletList') ? 'bg-blue-600 text-white' : 'bg-gray-600'}`}>
+        Bullet
+      </button>
+      <button onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        className={`px-3 py-1 rounded ${editor.isActive('orderedList') ? 'bg-blue-600 text-white' : 'bg-gray-600'}`}>
+        Numbered
+      </button>
+      <button onClick={() => editor.chain().focus().toggleBlockquote().run()}
+        className={`px-3 py-1 rounded ${editor.isActive('blockquote') ? 'bg-blue-600 text-white' : 'bg-gray-600'}`}>
+        Quote
+      </button>
+      <button onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+        className={`px-3 py-1 rounded ${editor.isActive('codeBlock') ? 'bg-blue-600 text-white' : 'bg-gray-600'}`}>
+        Code
+      </button>
+      <button onClick={() => editor.chain().focus().undo().run()} className="px-3 py-1 rounded bg-red-500">
+        Undo
+      </button>
+      <button onClick={() => editor.chain().focus().redo().run()} className="px-3 py-1 rounded bg-green-500">
+        Redo
+      </button>
+    </div>
+  );
+};
+
+const TipTapEditor = ({ content, setContent }) => {
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: content,
+    onUpdate: ({ editor }) => {
+      setContent(editor.getHTML());
+    },
+  });
+
+  return (
+    <div className="bg-gray-800 text-white rounded p-4 border border-cyan-700">
+      <MenuBar editor={editor} />
+      <div className="border border-gray-600 rounded">
+        <EditorContent editor={editor} className="p-3 min-h-[300px] max-h-[500px] overflow-y-auto focus:outline-none" />
+      </div>
+    </div>
+  );
+};
+
+export default TipTapEditor;
