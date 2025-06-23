@@ -2,17 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import Postcard from '../components/PostCard';
 import React from 'react';
 import {motion} from 'framer-motion'
+import { Backgorund_image } from '../utils/constant';
 
 const Home = () => {
   const navigate = useNavigate()
-
-
-
   return (
     <div className='flex flex-col items-center'>
       <div className="flex min-h-[700px] my-4 flex-col bg-cover bg-center bg-no-repeat items-start justify-center  px-4 w-[80%] rounded-md" 
         style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuB9yybwz4Ta5lROke_QkCfCtWvCBgXQQjVjJJ265P2_L7MqkGtHyWwf_8-vp05rJdBNTrrB18Ex11GxWXPT3-kq2N30KAfWND5ERgEXZPJlJBfcyxgSXdlHk9JpcfD-DhpcDxZ37Ng0N71u9SsDsKWRiS2rtAXmEjSzaIbSM3g1NcZWO96ppHeprMOe4Ly6sldAReZ-ZhAxDt0_xUurerGaOyEPNBxip7RxbXJvgUnB4s4l02PfNYjRfemhPF9kYshBBuE5R1tnbCP6")`,
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url(${Backgorund_image})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         }}
