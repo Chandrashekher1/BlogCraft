@@ -8,7 +8,7 @@ const GptBlog = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [showOption,setShowOption] = useState(false)
 
-  const ai = new GoogleGenAI({ apiKey: "AIzaSyDKW283S24S-Fayeq5uGDvCUJPsHgeHv50" });
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GPT_API_KEY });
 
   async function main() {
     const inputText = query.current.value;
