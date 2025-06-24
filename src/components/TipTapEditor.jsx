@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 
@@ -54,10 +54,15 @@ const TipTapEditor = ({ content, setContent }) => {
     },
   });
 
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
   return (
     <div className="bg-gray-800 text-white rounded p-4 border border-cyan-700">
       <MenuBar editor={editor} />
-      <div className="border border-gray-600 rounded">
+      <div className="border-t border-t-gray-600">
         <EditorContent editor={editor} className="p-3 min-h-[300px] max-h-[500px] overflow-y-auto focus:outline-none" />
       </div>
     </div>
