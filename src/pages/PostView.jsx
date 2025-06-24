@@ -4,8 +4,7 @@ import { post_API, sample_image } from "../utils/constant"
 import Shimmer from "../components/Shimmer";
 import { AiFillHeart } from "react-icons/ai"
 import { AiOutlineComment } from "react-icons/ai"
-
-
+import parse from 'html-react-parser';
 
 const PostView = () => {
   const { id } = useParams();
@@ -79,7 +78,7 @@ const PostView = () => {
         )}
     </div>
     <div className="flex">
-      <p className="text-lg md:text-2xl mb-4 text-wrap mx-4">{postData.content}</p>
+      <p className="text-lg md:text-2xl mb-4 text-wrap mx-4">{parse(postData.content)}</p>
     </div>
      <div className="flex gap-4 items-center mt-2">
       <AiFillHeart className="text-red-500 text-4xl cursor-pointer" />
