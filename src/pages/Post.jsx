@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { post_API } from '../utils/constant';
 import TipTapEditor from '../components/TipTapEditor';
 import GptBlog from '../components/GptBlog';
-import parse from 'html-react-parser';
+import { useNavigate } from 'react-router-dom';
+// import parse from 'html-react-parser';
 
 const Post = () => {
   const [title, setTitle] = useState('');
@@ -12,13 +13,9 @@ const Post = () => {
   const [message, setMessage] = useState(null);
   const [images,setImages] = useState('')
   const [isShow,setIshow] = useState(true)
-  
+  const navigate = useNavigate()
+  const token = localStorage.getItem("authorization");
   const handleData = async () => {
-    const token = localStorage.getItem("authorization");
-    if (!token) {
-      setMessage({ type: 'error', text: "Please log in first." });
-      return;
-    }
     if (!title || !content || !author ) {
       setMessage({ type: 'error', text: "All fields are required!" });
       return;
@@ -35,7 +32,6 @@ const Post = () => {
         formData.append('blog',img)
       })
 
-      // formData.append("blog",images)
       const response = await fetch(post_API, {
         method: "POST",
         headers: {
@@ -43,12 +39,10 @@ const Post = () => {
         },
         body: formData
       });
-
       const json = await response.json()
       if (!response.ok) {
         throw new Error(json.message || "Failed to create post");
       }
-
       setMessage({ type: 'success', text: "Post Created Successfully!" });
       setTitle('');
       setContent('');
@@ -61,8 +55,17 @@ const Post = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
+  const handlenavigate = () => {
+      navigate('/login')
+  }
+    useEffect(() => {
+      if(!token){
+        handlenavigate()
+        return
+      }
+    },[])
   return (
     <div className="min-h-screen flex flex-col items-center  text-white md:p-6 p-4">
       <div className="w-full max-w-3xl md:p-6 rounded-lg shadow-lg">
@@ -120,10 +123,8 @@ const Post = () => {
           </div>
           
         </div>):<GptBlog/>}
-
-            {parse(content)}
+        {/* {parse(content)} */}
       </div>
-
     </div>
   );
 };
