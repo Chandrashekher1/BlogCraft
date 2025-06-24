@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Postcard from '../components/PostCard';
-import React from 'react';
 import { Backgorund_image } from '../utils/constant';
-
+import React from 'react';
 const Home = () => {
   const navigate = useNavigate()
   return (
@@ -26,18 +25,6 @@ const Home = () => {
           CREATE YOUR BLOG
         </button>
       </div>
-      {/* <motion.div className='md:px-40 my-16 mx-4'  whileHover={{
-        scale: 1.05,
-        rotateX: 10,
-        rotateY: -10,
-        transition: { type: 'spring', stiffness: 300, damping: 15 }
-      }}>
-        <img 
-          src="https://res.cloudinary.com/dt9a9xhz1/image/upload/v1750410254/Blog_cqjl4v.png" 
-          alt="Home"
-          className='shadow-2xl shadow-blue-400 bg-gradient-to-r from-blue-500 to-purple-500  '
-          />
-      </motion.div> */}
 
       <div className="mx-24 mt-16">
         <h1 className='font-semibold text-3xl mx-20 md:mt-4 mt-16'>Featured Posts</h1>
