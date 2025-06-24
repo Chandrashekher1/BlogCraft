@@ -33,7 +33,7 @@ const Postcard = () => {
   };
 
   return (
-    <div className="flex flex-wrap justify-center px-4 md:px-16 bg-black min-h-screen py-10">
+    <div className="flex flex-wrap justify-center px-4 md:px-16 bg-black min-h-screenh-40 ">
       {loading ? (
         Array.from({ length: shimmerCount }).map((_, index) => (
           <div 
