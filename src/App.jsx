@@ -25,7 +25,7 @@ function App() {
 
   return (
     <Router>
-      <div className='bg-black text-white' >
+      <div className='bg-zinc-950 text-white' >
         <Header/>
         <div className='font-roboto'>
         <Routes>
