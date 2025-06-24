@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { allPost_API, post_API, profile_APi } from '../utils/constant';
+import { allPost_API, post_API, profile_APi } from '../utils/constant'
+import parse from 'html-react-parser';
+import TipTapEditor from '../components/TipTapEditor';
 
 const Profile = () => {
   const token = localStorage.getItem("authorization");
@@ -148,11 +150,12 @@ const Profile = () => {
                         onChange={(e) => setEditTitle(e.target.value)}
                         className="w-full mb-2 p-2 bg-gray-700 rounded text-white"
                       />
-                      <textarea 
+                      {/* <textarea 
                         value={editContent}
                         onChange={(e) => setEditContent(e.target.value)}
                         className="w-full mb-2 p-2 bg-gray-700 rounded text-white h-24"
-                      />
+                      /> */}
+                      <TipTapEditor content={editContent} setContent={setEditContent} />
                       <div className="flex justify-between mt-2">
                         <button
                           className="px-4 py-1 bg-green-600 rounded cursor-pointer"
@@ -173,7 +176,7 @@ const Profile = () => {
                       <div className='flex justify-between'>
                         <div>
                           <h3 className="text-lg  font-semibold">{post.title}</h3>
-                          <h3>{post.content.slice(0,150)}...</h3>
+                          <h3>{parse(post.content.slice(0,150))}...</h3>
                         </div>
                       <img src={post.image[0]} alt="image" className='rounded-md w-40 h-20'/>
                       </div>
