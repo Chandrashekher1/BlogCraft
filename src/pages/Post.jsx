@@ -3,7 +3,6 @@ import { post_API } from '../utils/constant';
 import TipTapEditor from '../components/TipTapEditor';
 import GptBlog from '../components/GptBlog';
 import { useNavigate } from 'react-router-dom';
-// import parse from 'html-react-parser';
 
 const Post = () => {
   const [title, setTitle] = useState('');
@@ -59,6 +58,7 @@ const Post = () => {
 
   const handlenavigate = () => {
       navigate('/login')
+      alert("Login first to create blog.")
   }
     useEffect(() => {
       if(!token){
