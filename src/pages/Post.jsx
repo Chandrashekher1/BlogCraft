@@ -64,8 +64,8 @@ const Post = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center  text-white p-6">
-      <div className="w-full max-w-3xl p-6 rounded-lg shadow-lg">
+    <div className="min-h-screen flex flex-col items-center  text-white md:p-6 p-4">
+      <div className="w-full max-w-3xl md:p-6 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center mb-4">Create a New Post</h1>
 
         {message && (
