@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { post_API } from '../utils/constant';
 import TipTapEditor from '../components/TipTapEditor';
 import GptBlog from '../components/GptBlog';
+import parse from 'html-react-parser';
 
 const Post = () => {
   const [title, setTitle] = useState('');
@@ -11,11 +12,7 @@ const Post = () => {
   const [message, setMessage] = useState(null);
   const [images,setImages] = useState('')
   const [isShow,setIshow] = useState(true)
-  const stripHtmlTags = (html) => {
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = html;
-    return tempDiv.textContent || tempDiv.innerText || "";
-  };
+  
   const handleData = async () => {
     const token = localStorage.getItem("authorization");
     if (!token) {
@@ -124,7 +121,7 @@ const Post = () => {
           
         </div>):<GptBlog/>}
 
-        
+            {parse(content)}
       </div>
 
     </div>
