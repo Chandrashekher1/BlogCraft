@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { post_API } from '../utils/constant';
 import TipTapEditor from '../components/TipTapEditor';
+import GptBlog from '../components/GptBlog';
 
 const Post = () => {
   const [title, setTitle] = useState('');
@@ -9,6 +10,7 @@ const Post = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [images,setImages] = useState('')
+  const [isShow,setIshow] = useState(true)
   const stripHtmlTags = (html) => {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = html;
@@ -74,7 +76,15 @@ const Post = () => {
             {message.text}
           </p>
         )}
-        <div className="flex flex-col space-y-4">
+        <div className='border-b border-gray-600 flex'>
+          <h1 className={`font-semibold text-xl cursor-pointer px-4 py-2 rounded-t-md transition-colors ${
+      isShow ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'
+    }`}    onClick={() => setIshow(true)}>Write</h1>
+          <h1 className={`font-semibold text-xl cursor-pointer px-4 py-2 mx-4 rounded-t-md transition-colors ${
+      !isShow ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'
+    }`} onClick={() => setIshow(false)}>AI Assistant</h1>
+        </div>
+        {isShow ? (<div className="flex flex-col space-y-4 my-4">
           <input 
             type="text" 
             value={title} 
@@ -82,13 +92,6 @@ const Post = () => {
             placeholder="Title" 
             className="px-4 py-4 rounded-lg bg-gray-700 text-white border border-cyan-800 active:outline-none focus:outline-none"
           />
-
-          {/* <textarea 
-            value={content} 
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Write your post..." 
-            className="p-2 rounded bg-gray-700 text-white h-32 focus:outline-none focus:ring-2 focus:ring-blue-600"
-          /> */}
          <TipTapEditor content={content} setContent={setContent} />
 
           <input 
@@ -119,30 +122,11 @@ const Post = () => {
           </button>
           </div>
           
-        </div>
+        </div>):<GptBlog/>}
+
+        
       </div>
 
-      {(title || content  ) && (
-        <div className="w-full max-w-3xl bg-gray-800 mt-8 p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold">{title || "Post Title Preview"}</h2>
-          <p className="mt-2 text-gray-300">{stripHtmlTags(content) || "Post content will appear here..."}</p>
-          <p className="mt-2 text-sm italic text-gray-400">{author ? `By ${author}` : "Author Name"}</p>
-
-          {/* {media && (
-            <div className="mt-4">
-              <img 
-                src={media} 
-                alt="Media preview" 
-                className="w-full max-h-48 object-contain rounded-md"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = 'https://via.placeholder.com/400x200?text=Invalid+Media+URL';
-                }}
-              />
-            </div>
-          )} */}
-        </div>
-      )}
     </div>
   );
 };
