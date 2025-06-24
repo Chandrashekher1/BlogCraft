@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { post_API } from '../utils/constant';
 import { useNavigate } from 'react-router-dom';
+import parse from 'html-react-parser';
+
 
 const Postcard = () => {  
   const [data, setData] = useState([]);
@@ -61,7 +63,7 @@ const Postcard = () => {
             <div>
               <p className='text-gray-400'>Featured</p>
               <h1 className="text-lg sm:text-xl font-bold mt-4">{post.title}</h1>
-              <p className="mt-2 text-gray-300 ">{post.content.slice(0, 100)}...</p>
+              <p className="mt-2 text-gray-300 ">{parse(post.content.slice(0, 100))}...</p>
               <h2 className="text-sm text-gray-400 mt-1">By {post.author}</h2>
               <button className='border border-cyan-600 px-2 py-2 rounded-md my-4 active:scale-105 cursor-pointer'  onClick={() => handlePostClick(post._id)} >Read Post</button>
 
