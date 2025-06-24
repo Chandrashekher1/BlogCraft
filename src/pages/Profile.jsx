@@ -101,7 +101,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col md:mx-40 bg-black text-white py-10 gap-10">
+    <div className="min-h-screen flex flex-col md:mx-40  text-white py-10 gap-10">
       <div className="flex flex-col items-center">
         <img 
           src={userData?.image} 
@@ -150,11 +150,6 @@ const Profile = () => {
                         onChange={(e) => setEditTitle(e.target.value)}
                         className="w-full mb-2 p-2 bg-gray-700 rounded text-white"
                       />
-                      {/* <textarea 
-                        value={editContent}
-                        onChange={(e) => setEditContent(e.target.value)}
-                        className="w-full mb-2 p-2 bg-gray-700 rounded text-white h-24"
-                      /> */}
                       <TipTapEditor content={editContent} setContent={setEditContent} />
                       <div className="flex justify-between mt-2">
                         <button
