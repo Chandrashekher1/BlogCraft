@@ -99,7 +99,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col mx-40 bg-black text-white py-10 gap-10">
+    <div className="min-h-screen flex flex-col md:mx-40 bg-black text-white py-10 gap-10">
       <div className="flex flex-col items-center">
         <img 
           src={userData?.image} 
