@@ -1,0 +1,60 @@
+import React, { useRef, useState } from 'react';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
+import TipTapEditor from './TipTapEditor';
+const GptBlog = () => {
+  const [content, setContent] = useState('');
+  const query = useRef();
+  const [isLoading, setIsLoading] = useState(false)
+  const [showOption,setShowOption] = useState(false)
+
+  const ai = new GoogleGenAI({ apiKey: "AIzaSyDKW283S24S-Fayeq5uGDvCUJPsHgeHv50" });
+
+  async function main() {
+    const inputText = query.current.value;
+    if (!inputText.trim()) {
+      alert("Please enter a prompt.");
+      return;
+    }
+    setIsLoading(!isLoading)
+    const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: `Write a beautifully written blog post on the topic: "${inputText}". 
+            The blog should include an engaging introduction, well-organized headings, informative paragraphs, 
+            and a conclusion.
+            Avoid listing suggestions or search-style responses. Focus on storytelling and value.` ,
+    });
+    setContent(response.text)
+    console.log(response.text);
+    
+    setShowOption(true)
+    }
+
+
+  return (
+    <div className=''>
+      <textarea 
+        ref={query}
+        placeholder='What do you want to write about?'
+        className='px-4 py-2 w-full my-4 h-40 bg-gray-800 rounded-md focus:outline-none text-white'
+      />
+      <button 
+        onClick={() =>main()}
+        disabled={isLoading}
+        className='py-2 bg-blue-600 rounded-md px-8 mx-2 cursor-pointer hover:bg-blue-500 font-semibold'
+      >
+        {isLoading ?"Generating..." : "Generate"}
+      </button>
+      <div className='w-full min-h-60 rounded-md bg-gray-800 my-4 overflow-y-auto p-4 text-white'>
+        <TipTapEditor content={content} setContent={setContent} />
+      </div>
+        {showOption && <div className='flex'>
+            <h1 className='text-xl'>Would you like to post this content ? </h1>
+            <button className='mx-4 px-4  rounded-md cursor-pointer bg-gray-700'>Yes</button> 
+            <button className=' px-4  rounded-md cursor-pointer bg-gray-700'>No</button>
+        </div>}
+    </div>
+  );
+};
+
+export default GptBlog;
