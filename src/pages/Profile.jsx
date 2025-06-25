@@ -33,6 +33,8 @@ const Profile = () => {
       });
       if (!res.ok) throw new Error("Failed to fetch profile");
       const data = await res.json();
+      console.log(data);
+      
       setUserData(data);
     } catch (error) {
       console.error("Error fetching profile:", error);
@@ -104,7 +106,7 @@ const Profile = () => {
     <div className="min-h-screen flex flex-col md:mx-40  text-white py-10 gap-10">
       <div className="flex flex-col items-center">
         <img 
-          src={userData?.image} 
+          src={userData?.data?.image} 
           alt="Profile" 
           className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full object-cover mx-auto border border-cyan-400"
         />
@@ -114,7 +116,7 @@ const Profile = () => {
             {isLoading ? (
               <div className="w-32 h-5 bg-gray-700 rounded-md animate-pulse mx-2"></div>
             ) : (
-              <span className="text-cyan-400 mx-2">{userData?.name}</span>
+              <span className="text-cyan-400 mx-2">{userData?.data?.name}</span>
             )}
           </h1>
 
@@ -122,7 +124,7 @@ const Profile = () => {
             {isLoading ? (
               <div className="w-44 h-5 bg-gray-700 rounded-md animate-pulse mx-2"></div>
             ) : (
-              <a href="#"><span className="text-gray-300 mx-2">{userData?.email}</span></a>
+              <a href="#"><span className="text-gray-300 mx-2">{userData?.data?.email}</span></a>
             )}
           </h2>
 
