@@ -17,6 +17,7 @@ const Login = () => {
   e.preventDefault();
   setMessage("");
 
+
   try {
     let response;
     const url = isSignIn ? Register_API : Login_API;
@@ -49,6 +50,8 @@ const Login = () => {
     }
 
     const token = response.headers.get("authorization");
+    console.log(token);
+    
     if (token) {
       localStorage.setItem("authorization", token);
       localStorage.setItem("userId", data._id); 
@@ -64,7 +67,7 @@ const Login = () => {
 };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-black px-4">
+    <div className="min-h-screen flex items-center justify-center bg-black px-4">
       <div className="bg-gray-800 rounded-2xl px-8 py-10 w-11/12 sm:w-96 lg:w-[28rem] text-gray-300">
         <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
           {isSignIn ? "Sign Up" : "Login"}
