@@ -5,7 +5,7 @@ import React from 'react';
 const Home = () => {
   const navigate = useNavigate()
   return (
-    <div className='flex flex-col items-center overflow-hidden'>
+    <div className='flex flex-col items-center overflow-hidden min-h-screen'>
       <div  className="flex flex-col justify-center items-start w-[80%] rounded-md mt-4 min-h-[500px] sm:min-h-[600px] md:min-h-[600px] bg-no-repeat bg-cover bg-center text-white px-4 sm:px-6 lg:px-12" 
         style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url(${Backgorund_image})`,
