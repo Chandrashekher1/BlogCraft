@@ -11,6 +11,8 @@ const Login = () => {
   const [image,setImage] = useState(null)
   const navigate = useNavigate();
 
+  console.log(image);
+  
   const handleSignUp = () => setIsSignIn(!isSignIn);
 
  const handleSubmit = async (e) => {
@@ -108,6 +110,7 @@ const Login = () => {
           {isSignIn && <input
             type="file"
             required
+            accept="image/*"
             placeholder="Upload  your profile image.."
             onChange={(e) => setImage(e.target.files[0])}
             className="border px-4 py-2 border-cyan-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-500 transition-all"
