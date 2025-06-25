@@ -17,15 +17,15 @@ function App() {
 
   if(onlineStatus === false) {
     return (
-      <div className='h-screen text-center flex flex-col justify-center items-center'>
-        <h1 className='text-center text-4xl'>Oops! You have lost your internet connection</h1>
+      <div className='min-h-screen text-center flex flex-col justify-center items-center bg-zinc-950'>
+        <h1 className='text-center text-4xl text-white'>Oops! You have lost your internet connection</h1>
       </div>
     )
   }
 
   return (
     <Router>
-      <div className='bg-zinc-950 text-white' >
+      <div className='bg-zinc-950 text-white font-roboto' >
         <Header/>
         <div className='font-roboto'>
         <Routes>
