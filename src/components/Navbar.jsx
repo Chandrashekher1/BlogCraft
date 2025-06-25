@@ -5,7 +5,6 @@ const Navbar = () => {
   const [token, setToken] = useState(localStorage.getItem("authorization"))
   const navigate = useNavigate()
   const topRef = useRef(null)
-
   useEffect(() => {
     const handleStorageChange = () => {
       setToken(localStorage.getItem("authorization"));
@@ -33,15 +32,14 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         {/* <Link to="/" className="text-xl font-bold">MyBlog</Link> */}
         <ul className="hidden md:flex space-x-6 text-lg">
+          
           <Link to="/">
             <li className='cursor-pointer hover:border border-cyan-600 px-3 py-2 rounded-lg' onClick={scrollToTop} ref={topRef}>Home</li>
           </Link>
           <Link to="/">
             <li className='cursor-pointer hover:border border-cyan-600 px-3 py-2 rounded-lg' onClick={scrollToTop} ref={topRef}>About</li>
           </Link>
-          <Link to="/">
-            <li className='cursor-pointer hover:border border-cyan-600 px-3 py-2 rounded-lg' onClick={scrollToTop} ref={topRef}>Contact</li>
-          </Link>
+          
           <Link to="/create-post" onClick={scrollToTop}>
             <li className='cursor-pointer px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 active:scale-95'>New Post</li>
           </Link>
