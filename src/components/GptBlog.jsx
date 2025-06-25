@@ -6,7 +6,7 @@ const GptBlog = () => {
   const [content, setContent] = useState('');
   const query = useRef();
   const [isLoading, setIsLoading] = useState(false)
-  const [showOption,setShowOption] = useState(false)
+  // const [showOption,setShowOption] = useState(false)
 
   const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GPT_API_KEY});
 
@@ -62,11 +62,11 @@ const GptBlog = () => {
       <div className='w-full min-h-60 rounded-md bg-gray-800 my-4 overflow-y-auto p-4 text-white'>
         <TipTapEditor content={content} setContent={setContent} />
       </div>
-        {showOption && <div className='flex'>
+        {/* {showOption && <div className='flex'>
             <h1 className='text-xl'>Would you like to post this content ? </h1>
             <button className='mx-4 px-4  rounded-md cursor-pointer bg-gray-700' >Yes</button> 
             <button className=' px-4  rounded-md cursor-pointer bg-gray-700'>No</button>
-        </div>}
+        </div>} */}
     </div>
   );
 };
