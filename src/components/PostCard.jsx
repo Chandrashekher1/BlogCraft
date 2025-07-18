@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { post_API } from '../utils/constant';
 import { useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
+import { IoIosArrowRoundForward } from "react-icons/io";
+
 
 
 const Postcard = () => {  
@@ -55,7 +57,7 @@ const Postcard = () => {
         data.map((post) => (
           <div 
             key={post._id} 
-            className="border flex justify-between md:flex-row flex-col-reverse border-gray-700 bg-gray-900 bg-opacity-70 
+            className="border flex justify-between md:flex-row flex-col-reverse border-gray-800 bg-gray-950 bg-opacity-70 
             p-6 m-4 shadow-lg backdrop-blur-md w-80 md:w-full rounded-xl transition-all 
             hover:scale-105 hover:shadow-xl text-white"
           >
@@ -64,8 +66,7 @@ const Postcard = () => {
               <h1 className="text-lg sm:text-xl font-bold mt-4">{post.title}</h1>
               <p className="mt-2 text-gray-300 ">{parse(post.content.slice(0, 100))}...</p>
               <h2 className="text-sm text-gray-400 mt-1">By {post.author}</h2>
-              <button className='border border-cyan-600 px-2 py-2 rounded-md my-4 active:scale-105 cursor-pointer'  onClick={() => handlePostClick(post._id)} >Read Post</button>
-
+              <button className='border border-gray-700 px-2 py-2 rounded-md my-4 active:scale-105 cursor-pointer flex'  onClick={() => handlePostClick(post._id)} >Read more {<IoIosArrowRoundForward style={{marginTop:'6px',marginLeft:'4px', color:'white'}}/>}</button>
             </div>
             <img 
               src={post?.image?.length > 0 ? post.image[0] : "https://www.hexaphortechnologies.co.in/service_img/1687797021.png"}
