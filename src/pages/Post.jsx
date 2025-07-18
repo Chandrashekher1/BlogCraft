@@ -3,9 +3,6 @@ import { post_API } from '../utils/constant';
 import TipTapEditor from '../components/TipTapEditor';
 import GptBlog from '../components/GptBlog';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { postAdded } from '../utils/PostSlice';
-import parse from 'html-react-parser';
 import { IoDocumentTextOutline } from "react-icons/io5"
 
 const Post = () => {
@@ -18,7 +15,6 @@ const Post = () => {
   const [isShow,setIshow] = useState(true)
   const navigate = useNavigate()
   const token = localStorage.getItem("authorization");
-  const dispatch = useDispatch()
   const [alertType,setAlertType] = useState('success')
   const [error, setError] = useState('')  
   
@@ -75,15 +71,6 @@ const Post = () => {
         return
       }
     },[])
-
-    const handleSavePost = () => {
-      dispatch(postAdded(parse(content)))
-      dispatch(postAdded(title))
-      dispatch(postAdded(author))
-
-      setAlertType('error')
-      setError("Saved Successfully.")
-    }
 
     setTimeout(() => {
       setError('')
@@ -156,7 +143,7 @@ const Post = () => {
           />
           </div>
           <div>
-            <button className=' px-4 py-2 font-semibold cursor-pointer bg-black rounded-md active:scale-95' onClick={handleSavePost}>Cancel</button>
+            <button className=' px-4 py-2 font-semibold cursor-pointer bg-black rounded-md active:scale-95'>Cancel</button>
             <button 
               onClick={handleData} 
               disabled={loading}
