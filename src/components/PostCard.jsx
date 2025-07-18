@@ -59,9 +59,9 @@ const Postcard = () => {
             key={post._id} 
             className="border flex justify-between md:flex-row flex-col-reverse border-gray-800 bg-gray-950 bg-opacity-70 
             p-6 m-4 shadow-lg backdrop-blur-md w-80 md:w-full rounded-xl transition-all 
-            hover:scale-105 hover:shadow-xl text-white"
+            hover:-translate-y-2 cursor-pointer hover:shadow-xl text-white"
           >
-            <div>
+            <div onClick={() => handlePostClick(post._id)}>
               <p className='text-gray-400'>Featured</p>
               <h1 className="text-lg sm:text-xl font-bold mt-4">{post.title}</h1>
               <p className="mt-2 text-gray-300 ">{parse(post.content.slice(0, 100))}...</p>
