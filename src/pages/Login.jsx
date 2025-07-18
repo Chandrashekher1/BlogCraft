@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Login_API, Register_API } from "../utils/constant";
+import { FiUser } from "react-icons/fi";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -11,14 +12,40 @@ const Login = () => {
   const [image,setImage] = useState(null)
   const navigate = useNavigate();
 
-  console.log(image);
-  
   const handleSignUp = () => setIsSignIn(!isSignIn);
+
+  const handleGuestLogin = async () => {
+    try {
+      const response = await fetch(Login_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: 'guest@gmail.com',
+          password: 'Guest@123'
+        })
+      });
+
+      const data = await response.json();
+      console.log(data);
+      
+      const token = response.headers.get("authorization");
+      if (response.ok) {
+        localStorage.setItem("authorization", token); 
+        navigate('/');
+        location.reload()
+      } else {
+        alert('Guest login failed');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Something went wrong.');
+    }
+  };
+
 
  const handleSubmit = async (e) => {
   e.preventDefault();
   setMessage("");
-
 
   try {
     let response;
@@ -44,19 +71,16 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
     }
-
     const data = await response.json();
-
     if (!response.ok) {
       throw new Error(data.message || "Operation failed");
     }
 
     const token = response.headers.get("authorization");
-    console.log(token);
-    
     if (token) {
       localStorage.setItem("authorization", token);
       localStorage.setItem("userId", data._id); 
+      localStorage.setItem('userImage',data?.image)
       navigate("/profile");
       location.reload();
     } else {
@@ -69,8 +93,8 @@ const Login = () => {
 };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black px-4">
-      <div className="bg-gray-800 rounded-2xl px-8 py-10 w-11/12 sm:w-96 lg:w-[28rem] text-gray-300">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="bg-gray-900 rounded-2xl px-8 py-10 w-11/12 sm:w-96 lg:w-[28rem] text-gray-300">
         <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
           {isSignIn ? "Sign Up" : "Login"}
         </h1>
@@ -84,7 +108,7 @@ const Login = () => {
                 placeholder="Enter your Name.."
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="border px-4 py-2 border-cyan-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-500 transition-all"
+                className="border px-4 py-2 border-gray-700 outline-none rounded-md focus:ring-2 focus:ring-gray-700 transition-all"
               />
             </>
           )}
@@ -95,7 +119,7 @@ const Login = () => {
             placeholder="Email.."
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border px-4 py-2 border-cyan-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-500 transition-all"
+            className="border px-4 py-2 border-gray-700 outline-none rounded-md focus:ring-2 focus:ring-gray-700 transition-all"
           />
           <label className="font-semibold text-lg my-2">Password:</label>
           <input
@@ -104,7 +128,7 @@ const Login = () => {
             placeholder="Password.."
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border px-4 py-2 border-cyan-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-500 transition-all"
+            className="border px-4 py-2 border-gray-700 outline-none rounded-md focus:ring-2 focus:ring-gray-700 transition-all"
           />
           {isSignIn && <label className="font-semibold text-lg my-2">Profile Image</label>}
           {isSignIn && <input
@@ -113,27 +137,33 @@ const Login = () => {
             accept="image/*"
             placeholder="Upload  your profile image.."
             onChange={(e) => setImage(e.target.files[0])}
-            className="border px-4 py-2 border-cyan-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-500 transition-all"
+            className="border px-4 py-2 border-gray-700 outline-none rounded-md focus:ring-2 focus:ring-gray-700 transition-all"
           />}
-          {message && <p className="text-red-500 text-lg mx-2 mt-2">{message}</p>}
+          {message && <p className="text-red-500 text-sm mx-2 mt-2">{message}</p>}
 
           <button
             type="submit"
-            className="mt-6 bg-cyan-700 hover:bg-cyan-600 text-white font-semibold py-2 rounded-lg transition-all shadow-md active:scale-95"
+            className="mt-6 bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition-all shadow-md active:scale-95 cursor-pointer"
           >
             {isSignIn ? "Register" : "Proceed"}
           </button>
-
+          
           <p className="mt-6 text-sm text-center">
             {isSignIn ? "Already have an account?" : "Haven't registered yet?"}{" "}
             <span
-              className="text-cyan-400 cursor-pointer underline hover:text-cyan-300"
+              className="text-blue-700 font-semibold cursor-pointer underline hover:text-blue-600"
               onClick={handleSignUp}
             >
               {isSignIn ? "Login" : "Register"}
             </span>
           </p>
+          
+            
+
         </form>
+        <div>
+            <button className="my-6 cursor-pointer flex font-semibold border border-gray-700 bg-gray-800 rounded-md p-2 " onClick={handleGuestLogin}><FiUser className="my-1 mx-2"/> Login as Guest</button>
+          </div>
       </div>
     </div>
   );
