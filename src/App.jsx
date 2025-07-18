@@ -10,6 +10,7 @@ import Footer from './components/Footer'
 import Profile from './pages/Profile'
 import PostView from './pages/PostView'
 import useOnlineStatus from './utils/useOnlinestatus'
+import BlogGenerator from './components/BlogGenerator'
 
 function App() {
 
@@ -25,7 +26,7 @@ function App() {
 
   return (
     <Router>
-      <div className='bg-zinc-950 text-white font-roboto' >
+      <div className='text-white font-roboto bg-gray-950' >
         <Header/>
         <div className='font-roboto'>
         <Routes>
@@ -34,6 +35,8 @@ function App() {
           <Route path="/register" element={<Register/>}/>
           <Route path="/create-post" element={<Post/>}/>
           <Route path="/profile" element={<Profile/>}/>
+          <Route path="/blog-generator" element={<BlogGenerator/>}/>
+
           <Route path="/post-view/:id" element={<PostView/>}/>
 
         </Routes>
