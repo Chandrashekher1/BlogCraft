@@ -12,9 +12,9 @@ const GptBlog = () => {
   const [copied,setCopied] = useState(false)
   const [alertType, setAlertType] = useState('success');
   const [message, setMessage] = useState('')
-  // const [showOption,setShowOption] = useState(false)
 
-  const ai = new GoogleGenAI({ apiKey: "AIzaSyDKW283S24S-Fayeq5uGDvCUJPsHgeHv50"});
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GPT_API_KEY});
+
 
   const handleCopied =() => {
     setCopied(true)
