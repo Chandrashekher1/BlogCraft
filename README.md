@@ -1,58 +1,58 @@
 # Blogging Website
 
-A full-stack blogging platform where users can create, view, and manage posts. Built with MERN Stack (MongoDB, Express, React, Node.js) and styled using Tailwind CSS for a sleek and responsive UI.
+BlogCraft is a modern, feature-rich blogging platform that empowers users to create, express, and share their stories with the world. Designed with creativity and accessibility in mind, BlogCraft allows users to write beautifully formatted blogs, embed multimedia content, and engage with a seamless user experience.
 
 # Features
-- Create, edit, and delete blog posts
-
-- Rich-text editor for writing blogs (using Jodit)
-
-- Secure authentication with JWT
-
-- User profile with image upload (via Cloudinary)
-
-- Responsive UI built with Tailwind CSS
-
-- View all blogs and read full post
-
-- Form validations and error handling
-
+- 📝 Create, edit, and delete blog posts
+- 📝 Rich Text Blogging – Write and format blogs with Markdown and HTML support.
+- 📷 Multimedia Embeds – Add images, videos, and links to bring your stories to life.
+- 🤖 AI Blog Generator – Generate blog content with the help of integrated AI assistance to kickstart your ideas
+- 🌗 Dark Mode – Enjoy a modern and visually comfortable UI with dark/light mode toggle.
+- 👥 User Accounts & Guest Login – Sign up, log in, or browse as a guest with limited access.
+- 📊 Dashboard – View and manage your blogs with an intuitive dashboard.
+- 🚀 Responsive Design – Optimized for all devices: mobile, tablet, and desktop
+  
 # Tech Stack
 - Frontend : React.js, Tailwind CSS, MUI
-- Backend : Node.js, Express.js
+- Backend : Node.js, Express.js, 
 - Database : MongoDB
+- Authentication: JWT (JSON Web Tokens)
+- Styling: Tailwind CSS & MUI Components
 - Deployment : Vercel and Render
 
 # View
-![image](https://github.com/user-attachments/assets/c67cb0b4-5e04-4495-a9c9-d711b28d19a0)
+<img width="1848" height="876" alt="image" src="https://github.com/user-attachments/assets/674f67e3-d21b-494c-ae1c-e88e17e40996" />
 
+<img width="1810" height="785" alt="image" src="https://github.com/user-attachments/assets/4738a85e-f33e-4c78-bae9-729dd0794b3c" />
 
 # Getting Started
  Prerequisites
-- React.js 19.1.0
+- React.js 18.1.0
 - Mongodb Atlas Account
 
-# Installation
+## Installation
  
-1. Clone the repository
-- git clone https://github.com/Chandrashekher1/VibeScript.git
-2. Navigate to the project
-- cd VibeScript
-3. Backend Setup
-- npm Install
-- npm run dev
-4. Frontend Setup
-- npm Install
-- npm start
+# Clone the repository
+git clone https://github.com/chandrashekher1/blogcraft.git
+- cd blogcraft
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
 
 # Folder Structure
-    /frontend       # React App
-    /backend        # Express Server
-    /config         # Config file
-    /middleware     # middleware 
-    /models         # Mongoose Schemas
-    /routes         # API Routes
-    /utils          # Constants and helpers
+```   src/
+├── components/       # Reusable UI components
+├── pages/            # All screen pages (Home, Blog, Dashboard, etc.)
+├── services/         # Axios calls & API functions
+├── context/          # Theme & Auth context
+├── utils/            # Constants and helpers
+├── App.jsx
+├── main.jsx
+```
 
 
 # Contributing
@@ -65,6 +65,8 @@ Vercel
 3. Add environment variables in Vercel dashboard
 4. Deploy automatically
 
+## License
+MIT
 
 # React + Vite
 
