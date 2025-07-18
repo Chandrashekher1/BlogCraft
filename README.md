@@ -25,10 +25,6 @@ BlogCraft is a modern, feature-rich blogging platform that empowers users to cre
 
 <img width="1810" height="785" alt="image" src="https://github.com/user-attachments/assets/4738a85e-f33e-4c78-bae9-729dd0794b3c" />
 
-<img width="962" height="796" alt="image" src="https://github.com/user-attachments/assets/e91d7430-782a-48a6-89a4-26916b40e4e3" />
-
-
-
 # Getting Started
  Prerequisites
 - React.js 18.1.0
