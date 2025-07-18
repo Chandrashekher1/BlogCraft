@@ -18,12 +18,12 @@ const Home = () => {
       </div>
       
       <div className='mx-8 my-4 md:w-[50vw]'>
-        <h1 className='text-center font-bold text-4xl md:text-6xl'>Share Your <span className='bg-gradient-to-r from-white to-gray-800 bg-clip-text text-transparent'>Amazing Stories</span></h1>
+        <h1 className='text-center font-bold text-4xl md:text-6xl'>Share Your <span className='bg-gradient-to-r from-white to-gray-600 bg-clip-text text-transparent'>Amazing Stories</span></h1>
         <p className='text-center text-gray-400 my-4 text-lg'>Join our vibrant community of writers and readers. Create, share, and discover compelling stories that inspire, educate, and entertain. Now powered by AI to help you write better.</p>
       </div>
 
       <div>
-        <button className='flex border bg-white text-black font-semibold px-8 py-2 rounded-md text-lg cursor-pointer' onClick={() => navigate('/create-post')}>Start Writing Today <IoIosArrowRoundForward style={{marginTop:'6px',marginRight:'20px', fontSize:'20px'}}/></button>
+        <button className='flex border bg-white text-black font-semibold px-8 py-2 rounded-md text-lg cursor-pointer' onClick={() => navigate('/create-post')}>Start Writing Today <IoIosArrowRoundForward style={{marginTop:'6px',marginLeft:'20px', fontSize:'20px'}}/></button>
         <p className='text-center text-gray-400 my-2'>No credit card required</p>
       </div>
 
