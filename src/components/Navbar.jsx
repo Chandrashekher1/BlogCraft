@@ -34,7 +34,6 @@ const Navbar = () => {
   return (
     <nav className="text-white font-semibold shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
-        {/* <Link to="/" className="text-xl font-bold">MyBlog</Link> */}
         <ul className="hidden md:flex space-x-6 text-lg">
           
           <button>
@@ -46,15 +45,15 @@ const Navbar = () => {
           </Link>
           
           <Link to="/create-post" onClick={scrollToTop}>
-            <li className='cursor-pointer border  bg-white text-black px-6 py-1 rounded-lg flex '><CiPen style={{fontSize:'20px', marginTop:'4px',marginRight:'6px'}}/> Write</li>
+            <li className='cursor-pointer border bg-white text-black px-6 py-2 rounded-lg flex '><CiPen style={{fontSize:'20px', marginTop:'4px',marginRight:'6px'}}/> Write</li>
           </Link>
-          <li className='rounded-lg flex' onClick={handleAuthClick}>
-            <button className="text-xl flex cursor-pointer">
+          <li className='rounded-lg flex my-1' onClick={handleAuthClick}>
+            <button className="text-xl flex cursor-pointer ">
             {token ? 
               <div>
                 {userImage ? (<img src={userImage} alt="" className='rounded-full w-10 h-10 object-cover' />) : <span className='border rounded-full border-transparent bg-gray-900 flex p-2 px-3'><FiUser style={{marginTop:'4px'}}/></span> }
               </div> : 
-              <span className='flex my-1'><FiUser style={{marginTop:'4px', marginRight:'8px'}}/>Sign In</span> }
+              <span className='flex '><FiUser style={{marginTop:'4px', marginRight:'8px'}}/>Sign In</span> }
           </button>
           </li>
         </ul>
