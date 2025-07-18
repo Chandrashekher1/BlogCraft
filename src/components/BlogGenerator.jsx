@@ -101,7 +101,7 @@ Avoid listicle or search-style formatting. Focus on storytelling, readability, a
             />
 
             <label className='font-semibold mt-6'>Writing Tone</label>
-            <select className='border rounded-md py-1 px-2 border-gray-900 mt-2 bg-gray-950' ref={tone}>
+            <select className='border rounded-md py-1 px-2 border-gray-900 mt-2 bg-gray-950 cursor-pointer' ref={tone}>
               <option value="Professional">Professional</option>
               <option value="Casual">Casual</option>
               <option value="Humorous">Humorous</option>
@@ -109,7 +109,7 @@ Avoid listicle or search-style formatting. Focus on storytelling, readability, a
             </select>
 
             <label className='font-semibold mt-6'>Current Length</label>
-            <select className='border rounded-md py-1 px-2 border-gray-900 mt-2 bg-gray-950' ref={contentLength}>
+            <select className='border rounded-md py-1 px-2 border-gray-900 mt-2 bg-gray-950 cursor-pointer' ref={contentLength}>
               <option value="Short">Short (500 words)</option>
               <option value="Medium">Medium (1000 words)</option>
               <option value="Long">Long (1500+)</option>
@@ -148,9 +148,10 @@ Avoid listicle or search-style formatting. Focus on storytelling, readability, a
         <p className='flex  text-xl font-bold mb-4'>
           <FaRobot style={{ marginTop: '4px', marginRight: '8px' }} /> <span>Generated Content</span>
           
+
           {content &&  
             <CopyToClipboard text={content} onCopy={() => setCopied(true)} >
-                <button className='border border-gray-900 px-4 py-1 flex rounded-md text-sm '><MdContentCopy style={{marginTop:'4px'}}/> <span>Copy</span></button>
+                <button className='border border-gray-900 px-4 py-1 flex rounded-md text-sm cursor-pointer'><MdContentCopy style={{marginTop:'4px'}}/> <span>Copy</span></button>
             </CopyToClipboard>     
             }
         </p>
@@ -158,7 +159,7 @@ Avoid listicle or search-style formatting. Focus on storytelling, readability, a
         {!loading ? (
           <div>
             <div
-                className='prose prose-invert max-w-none w-full border-t pt-4 border-t-gray-800'
+                className="prose prose-invert max-w-none w-full border-t pt-4 border-t-gray-800 max-h-[400px] overflow-y-auto"
                 dangerouslySetInnerHTML={{ __html: content }}
             />
             
