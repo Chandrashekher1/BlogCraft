@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { post_API, sample_image } from "../utils/constant"
 import Shimmer from "../components/Shimmer";
-import { AiFillHeart } from "react-icons/ai"
-import { AiOutlineComment } from "react-icons/ai"
 import parse from 'html-react-parser';
 import { FiUser } from "react-icons/fi";
 import { FiCalendar } from "react-icons/fi"
@@ -84,14 +82,14 @@ const PostView = () => {
               key={index}
               src={imgUrl}
               alt={`Post Image ${index + 1}`}
-              className="w-80 object-cover rounded-lg shadow-md max-h-80  my-2"
+              className="w-80 object-cover rounded-lg shadow-md max-h-80  my-2 md:mx-4"
             />
           ))
         ) : (
           <img
             src={sample_image}
             alt="Default Post"
-            className="w-96 h-80 object-cover rounded-lg shadow-md"
+            className="w-96 h-80 object-cover rounded-lg shadow-md md:mx-4"
           />
         )}
     </div>
