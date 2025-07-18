@@ -45,14 +45,6 @@ A full-stack blogging platform where users can create, view, and manage posts. B
 - npm Install
 - npm start
 
-# Environment Variables
-- Create a .env file in your backend directory:
-    MONGO_URI=mongodb+srv://cpsaw999041:SouCCRYvxW30xwO5@blogs.ypef5.mongodb.net/blogs?retryWrites=true&w=majority&appName=Blogs
-    post_jwtPrivateKey=mySecureKey
-    CLOUDINARY_NAME=dt9a9xhz1
-    CLOUDINARY_KEY=271614543354583
-    CLOUDINARY_SECRET=b-shBrRBRdjQ4iohbD3Sma1rOiA
-
 # Folder Structure
     /frontend       # React App
     /backend        # Express Server
