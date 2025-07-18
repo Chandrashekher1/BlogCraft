@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { allPost_API, post_API, profile_APi } from '../utils/constant'
 import parse from 'html-react-parser';
 import TipTapEditor from '../components/TipTapEditor';
+import { FaUserCircle } from "react-icons/fa";
 
 const Profile = () => {
   const token = localStorage.getItem("authorization");
@@ -10,11 +11,11 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [userPosts, setUserPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const [isShowPosts, setIsShowPosts] = useState(false);
   const [editingPostId, setEditingPostId] = useState(null);
   const [editContent, setEditContent] = useState('');
   const [editTitle, setEditTitle] = useState('');
   const navigate = useNavigate();
+  const [isShow,setIshow] = useState(true)
 
   const handleLogout = () => {
     localStorage.removeItem("authorization");
@@ -33,8 +34,6 @@ const Profile = () => {
       });
       if (!res.ok) throw new Error("Failed to fetch profile");
       const data = await res.json();
-      console.log(data);
-      
       setUserData(data);
     } catch (error) {
       console.error("Error fetching profile:", error);
@@ -105,12 +104,14 @@ const Profile = () => {
   return (
     <div className="min-h-screen flex flex-col md:mx-40  text-white py-10 gap-10">
       <div className="flex flex-col items-center">
-        <img 
-          src={userData?.data?.image} 
-          alt="Profile" 
-          className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full object-cover mx-auto border border-cyan-400"
-        />
-
+        {
+          userData?.data?.image ? (
+            <img src={userData?.data?.image} alt=""  className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full object-cover mx-auto border border-cyan-400"/>
+          ):
+          (
+            <FaUserCircle className="text-cyan-600 w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 mx-auto" />
+          )
+        }    
         <div>
           <h1 className="text-xl sm:text-2xl font-bold mt-6 flex justify-center flex-wrap">
             {isLoading ? (
@@ -129,21 +130,41 @@ const Profile = () => {
           </h2>
 
           <button 
-            className="mt-8 mx-16 bg-red-600 hover:bg-red-700 transition-all duration-300 text-white items-center text-lg font-semibold px-6 py-3 rounded-lg shadow-lg active:scale-95"
+            className="mt-8 mx-16 bg-red-600 hover:bg-red-700 transition-all duration-300 text-white items-center text-lg font-semibold px-6 py-3 rounded-lg shadow-lg active:scale-95 cursor-pointer"
             onClick={handleLogout}
           >
             Logout
           </button>
         </div>
       </div>
-        <section className="w-full  px-2">
-          <h1 className='font-semibold text-3xl underline border-b border-gray-600 my-2 '>Posts</h1>
-          <div className="mt-6 space-y-4  bg-opacity-40 rounded-lg "> 
+        <section className="px-2 mx-4">
+          <div className="w-full flex justify-center my-6">
+            <div className="flex bg-gradient-to-r from-black to-cyan-900 p-1 rounded-full shadow-lg w-fit">
+              <button
+                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer ${
+                  isShow ? 'bg-cyan-500 text-black shadow-md' : 'text-white hover:text-cyan-400'
+                }`}
+                onClick={() => setIshow(true)}
+              >
+                Posts
+              </button>
+              <button
+                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer ${
+                  !isShow ? 'bg-cyan-500 text-black shadow-md' : 'text-white hover:text-cyan-400'
+                }`}
+                onClick={() => setIshow(false)}
+              >
+                Saved
+              </button>
+            </div>
+          </div>
+
+          {isShow ? <div className="mt-6 space-y-4  bg-opacity-40 rounded-lg "> 
             {userPosts.length === 0 ? (
               <p className="text-gray-400 text-center">No posts found.</p>
             ) : (
               userPosts.map((post) => (
-                <div key={post._id} className="p-4 bg-gray-800 rounded-md border border-gray-700 shadow-md w-full">
+                <div key={post._id} className="p-4 bg-gray-900 rounded-md border border-gray-700 shadow-md w-full">
                   {editingPostId === post._id ? (
                     <>
                       <input 
@@ -201,7 +222,12 @@ const Profile = () => {
                 </div>
               ))
             )}
+          </div> : 
+          <div>
+            {/* {savePost} */}
+            <p>No saved post</p>
           </div>
+          }
         </section>
      
     </div>
