@@ -33,8 +33,8 @@ BlogCraft is a modern, feature-rich blogging platform that empowers users to cre
 ## Installation
  
 # Clone the repository
-git clone https://github.com/your-username/blogcraft.git
-cd blogcraft
+git clone https://github.com/chandrashekher1/blogcraft.git
+- cd blogcraft
 
 # Install dependencies
 npm install
