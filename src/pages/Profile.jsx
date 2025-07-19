@@ -4,6 +4,7 @@ import { allPost_API, post_API, profile_APi } from '../utils/constant'
 import parse from 'html-react-parser';
 import TipTapEditor from '../components/TipTapEditor';
 import { FaUserCircle } from "react-icons/fa";
+import he from'he'
 
 const Profile = () => {
   const token = localStorage.getItem("authorization");
@@ -20,6 +21,7 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem("authorization");
     localStorage.removeItem("userId");
+    localStorage.removeItem('userImage')
     navigate("/login");
     location.reload();
   };
@@ -194,7 +196,7 @@ const Profile = () => {
                       <div className='flex justify-between'>
                         <div>
                           <h3 className="text-lg  font-semibold">{post.title}</h3>
-                          <h3>{parse(post.content.slice(0,150))}...</h3>
+                          <h3>{parse(he.decode(post.content.slice(0,150)))}...</h3>
                         </div>
                       <img src={post.image[0]} alt="image" className='rounded-md w-40 h-20'/>
                       </div>
