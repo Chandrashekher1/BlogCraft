@@ -7,9 +7,8 @@ import { GoLightBulb } from "react-icons/go";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import Stack from '@mui/material/Stack';
+import parse from 'html-react-parser';
+
 
 const BlogGenerator = () => {
   const [content, setContent] = useState('');
@@ -21,7 +20,7 @@ const BlogGenerator = () => {
   const [copied,setCopied] = useState(false)
 
   const ai = new GoogleGenAI({
-    apiKey: "AIzaSyDKW283S24S-Fayeq5uGDvCUJPsHgeHv50"
+    apiKey: import.meta.env.VITE_GPT_API_KEY
   });
 
   const handleGenerate = async (e) => {
@@ -43,21 +42,27 @@ const BlogGenerator = () => {
         model: "gemini-2.5-flash" ,
         contents: `
 Write a beautifully structured blog post on the topic: "${topic}".
+
 Use the writing tone: "${selectedTone}" and length: "${selectedLength}".
+
 Include keywords: "${keywordInput}".
 
 The blog must include:
 
-- An engaging introduction wrapped in appropriate <p> tags.
-- Well-organized sections with <h2> and <h3> headings.
-- Informative content with properly formatted <p> paragraphs.
-- Use <strong>, <em>, <ul>, <li>, or <blockquote> where relevant.
-- A thoughtful conclusion.
+Break it into:
+- Introduction
+- Key sections with meaningful subheadings
+- A thoughtful conclusion
 
-Ensure the response is written entirely in valid, semantic HTML.
-Do not include markdown or explanation—only return clean HTML content that can be directly rendered in a web editor.
-Avoid listicle or search-style formatting. Focus on storytelling, readability, and depth of content.
-      `
+Also:
+- Start with a <h1> title containing the topic.
+- Use <h2> and <h3> for section headers.
+- Use valid HTML content only (e.g., <p>, <ul>, <li>, <strong>, <em>, etc.).
+- Do NOT include <!DOCTYPE>, <html>, <head>, or <body> tags.
+- Do NOT include markdown or any explanation.
+- The result must be **pure HTML blog content**, directly usable inside a web editor or component.
+- Avoid listicle or search-style formatting. Focus on storytelling, readability, and depth of thought.
+`
     })
       setContent(response.text)
     } catch (err) {
@@ -149,20 +154,17 @@ Avoid listicle or search-style formatting. Focus on storytelling, readability, a
           <FaRobot style={{ marginTop: '4px', marginRight: '8px' }} /> <span>Generated Content</span>
           
 
-          {content &&  
-            <CopyToClipboard text={content} onCopy={() => setCopied(true)} >
-                <button className='border border-gray-900 px-4 py-1 flex rounded-md text-sm cursor-pointer'><MdContentCopy style={{marginTop:'4px'}}/> <span>Copy</span></button>
-            </CopyToClipboard>     
-            }
+          
         </p>
 
         {!loading ? (
           <div>
-            <div
-                className="prose prose-invert max-w-none w-full border-t pt-4 border-t-gray-800 max-h-[400px] overflow-y-auto"
-                dangerouslySetInnerHTML={{ __html: content }}
-            />
-            
+            <p className="w-full border-t pt-4 border-t-gray-800 max-h-[400px] overflow-y-auto">{parse(content)}</p>
+            {content &&  
+              <CopyToClipboard text={content} onCopy={() => setCopied(true)} >
+                  <button className='border border-gray-900 px-4 py-1 flex rounded-md text-sm cursor-pointer my-4'><MdContentCopy style={{marginTop:'4px'}}/> <span>Copy</span></button>
+              </CopyToClipboard>     
+            }
           </div>
         ) : (
           <Box sx={{ display: 'flex' }}>
