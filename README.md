@@ -3,14 +3,14 @@
 BlogCraft is a modern, feature-rich blogging platform that empowers users to create, express, and share their stories with the world. Designed with creativity and accessibility in mind, BlogCraft allows users to write beautifully formatted blogs, embed multimedia content, and engage with a seamless user experience.
 
 # Features
-- 📝 Create, edit, and delete blog posts
-- 📝 Rich Text Blogging – Write and format blogs with Markdown and HTML support.
-- 📷 Multimedia Embeds – Add images, videos, and links to bring your stories to life.
-- 🤖 AI Blog Generator – Generate blog content with the help of integrated AI assistance to kickstart your ideas
-- 🌗 Dark Mode – Enjoy a modern and visually comfortable UI with dark/light mode toggle.
-- 👥 User Accounts & Guest Login – Sign up, log in, or browse as a guest with limited access.
-- 📊 Dashboard – View and manage your blogs with an intuitive dashboard.
-- 🚀 Responsive Design – Optimized for all devices: mobile, tablet, and desktop
+-  Create, update and delete blog posts
+-  Rich Text Blogging – Write and format blogs with Markdown and HTML support.
+-  Multimedia Embeds – Add images, videos, and links to bring your stories to life.
+-  AI Blog Generator – Generate blog content with the help of integrated AI assistance to kickstart your ideas
+-  Dark Mode – Enjoy a modern and visually comfortable UI with dark/light mode toggle.
+-  User Accounts & Guest Login – Sign up, log in, or browse as a guest with limited access.
+-  Dashboard – View and manage your blogs with an intuitive dashboard.
+-  Responsive Design – Optimized for all devices: mobile, tablet, and desktop
   
 # Tech Stack
 - Frontend : React.js, Tailwind CSS, MUI
