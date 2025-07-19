@@ -4,6 +4,8 @@ import TipTapEditor from './TipTapEditor';
 import { BsStars } from "react-icons/bs";
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { MdContentCopy } from 'react-icons/md';
+import parse from 'html-react-parser';
+import he from 'he'
 
 const GptBlog = () => {
   const [content, setContent] = useState('');
@@ -34,18 +36,17 @@ const GptBlog = () => {
     try{
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
-        contents: `Write a beautifully structured blog post on the topic: "${inputText}". 
-          The blog must include:
+        contents: `Write a clear and informative blog post on the topic: "${inputText}". 
 
-          - An engaging introduction wrapped in appropriate <p> tags.
-          - Well-organized sections with <h2> and <h3> headings.
-          - Informative content with properly formatted <p> paragraphs.
-          - Use <strong>, <em>, <ul>, <li>, or <blockquote> where relevant.
-          - A thoughtful conclusion.
+Break it into:
+- Introduction
+- Key sections with meaningful subheadings
+- A thoughtful conclusion
 
-          Ensure the response is written entirely in valid, semantic HTML. 
-          Do not include markdown or explanation—only return clean HTML content that can be directly rendered in a web editor.
-          Avoid listicle or search-style formatting. Focus on storytelling, readability, and depth of content.`
+Ensure the response is written entirely in valid, semantic HTML.
+Do not include markdown or explanation—only return clean HTML content that can be directly rendered in a web editor.
+Avoid listicle or search-style formatting. Focus on storytelling, readability, and depth of content.
+Also add Topic with header, content with different header and write below it and also conclude conclusion.`
         
       });
       setContent(response.text)
@@ -92,14 +93,16 @@ const GptBlog = () => {
           <h2 className='text-pink-500 mt-4'>Title: </h2>
           <p className='text-pink-400 mt-4'>Content: <span>
                   <CopyToClipboard text={content} onCopy={handleCopied} >
-                          <button className='border border-gray-900 px-4 py-1 flex rounded-md text-sm '><MdContentCopy style={{marginTop:'4px'}}/> <span>Copy</span></button>
+                          <button className='border border-gray-900 px-4 py-1 flex rounded-md text-sm cursor-pointer'><MdContentCopy style={{marginTop:'4px'}}/> <span>Copy</span></button>
                   </CopyToClipboard>     
             </span></p>
-         <textarea className='bg-gray-900 w-full focus:outline-none overflow-y-scroll min-h-60' value={content}></textarea>
+          <div className='prose prose-invert bg-gray-900 text-white max-h-[500px] overflow-y-auto w-full p-6 mt-4 rounded-md'>
+            {parse(he.decode(content))}
+          </div>
          <div className='border-b border-b-pink-700 my-4'></div>
          <div className='my-4 flex justify-end'>
-          <button className='bg-black px-4 py-1 rounded-md mx-2'>Reset</button>
-          <button className='bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-1 rounded-md font-semibold '>Publish AI Post</button>
+          <button className='bg-black px-4 py-1 rounded-md mx-2 cursor-pointer'>Reset</button>
+          <button className='bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-1 rounded-md font-semibold cursor-pointer'>Publish AI Post</button>
          </div>
       </div>) : null }
         {message && (
