@@ -60,11 +60,7 @@ const Navbar = () => {
           </li>
         </ul>
         <div className='flex '>
-          <div className='mx-4'>
-          {/* <button className='md:hidden'>
-            <MdOutlineWbSunny style={{marginTop:'10px', fontSize:'20px'}}/>
-          </button> */}
-        </div>
+          
 
         <div className="md:hidden  flex items-center">
           <button className="text-xl md:hidden flex" onClick={handleAuthClick}>
