@@ -35,7 +35,6 @@ const PostView = () => {
         });
 
         if (!response.ok) throw new Error("Failed to fetch");
-
         const postJson = await response.json();
         setPostData(postJson);
       } catch (error) {
@@ -47,9 +46,8 @@ const PostView = () => {
   }, [id, token]);
 
   if (!postData) {
-    // MUI Skeleton UI
     return (
-      <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen bg-gray-950 text-white">
+      <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen bg-gray-700 text-white">
         <Box sx={{ width: "100%", display: "flex", flexDirection: "column", gap: 3 }}>
           <Skeleton variant="text" width="70%" height={40} />
           <Skeleton variant="text" width="40%" height={25} />
