@@ -1,6 +1,6 @@
-# Blogging Website
+# BlogCraft AI-Powered Blogging Platform
 
-BlogCraft is a modern, feature-rich blogging platform that empowers users to create, express, and share their stories with the world. Designed with creativity and accessibility in mind, BlogCraft allows users to write beautifully formatted blogs, embed multimedia content, and engage with a seamless user experience.
+BlogCraft is a modern, full-featured blogging platform that empowers users to create, manage, and share blog content with ease. Designed with a focus on simplicity and creativity, BlogCraft offers a seamless writing and reading experience along with powerful AI integration for content generation.
 
 # Features
 -  Create, update and delete blog posts
