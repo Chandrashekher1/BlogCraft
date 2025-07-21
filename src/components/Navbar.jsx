@@ -9,6 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate()
   const topRef = useRef(null)
   const userImage = localStorage.getItem('userImage')
+
   useEffect(() => {
     const handleStorageChange = () => {
       setToken(localStorage.getItem("authorization"));
@@ -38,6 +39,7 @@ const Navbar = () => {
           
           <button>
             <li className='cursor-pointer' onClick={scrollToTop} ref={topRef}><MdOutlineWbSunny style={{}}/></li>
+            
           </button>
           
           <Link to="/">
@@ -59,9 +61,9 @@ const Navbar = () => {
         </ul>
         <div className='flex '>
           <div className='mx-4'>
-          <button className='md:hidden'>
+          {/* <button className='md:hidden'>
             <MdOutlineWbSunny style={{marginTop:'10px', fontSize:'20px'}}/>
-          </button>
+          </button> */}
         </div>
 
         <div className="md:hidden  flex items-center">
