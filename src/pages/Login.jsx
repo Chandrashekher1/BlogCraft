@@ -31,6 +31,7 @@ const Login = () => {
       const token = response.headers.get("authorization");
       if (response.ok) {
         localStorage.setItem("authorization", token); 
+      localStorage.setItem('userImage',data?.image)
         navigate('/');
         location.reload()
       } else {
