@@ -41,7 +41,7 @@ const Home = () => {
         <button className='flex bg-white px-6 py-2 rounded-md text-black font-semibold my-4 cursor-pointer' onClick={() => navigate('/blog-generator')}><BsStars style={{marginTop:'4px',marginRight:'4px'}}/> Generate with AI</button>
       </div>) : null}
 
-      <div className="mx-24 mt-16">
+      <div className="md:mx-24 mt-16">
         <h1 className='font-semibold text-3xl mx-20 md:mt-4 mt-16 text-center'>Latest Stories</h1>
         <p className='text-center text-gray-400 mx-16 my-2 text-lg'>Discover inspiring content from our community</p>
         <Postcard/>
