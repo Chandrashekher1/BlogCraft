@@ -47,8 +47,8 @@ const PostView = () => {
 
   if (!postData) {
     return (
-      <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen bg-gray-700 text-white">
-        <Box sx={{ width: "100%", display: "flex", flexDirection: "column", gap: 3 }}>
+      <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen bg-gray-900 text-white">
+        <Box sx={{ width: "100%", display: "flex", flexDirection: "column", gap: 3}}>
           <Skeleton variant="text" width="70%" height={40} />
           <Skeleton variant="text" width="40%" height={25} />
           <Skeleton variant="rectangular" width="100%" height={250} sx={{ borderRadius: 2 }} />
