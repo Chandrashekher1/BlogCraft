@@ -1,129 +1,171 @@
-import React, { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import { post_API, sample_image } from "../utils/constant"
-import parse from 'html-react-parser';
-import { FiUser, FiCalendar } from "react-icons/fi";
-import { IoMdHeartEmpty } from "react-icons/io";
-import { GoBookmark } from "react-icons/go";
-import { LuShare2 } from "react-icons/lu";
-import he from 'he';
-import Skeleton from "@mui/material/Skeleton";
-
-const PostView = () => {
-  const { id } = useParams();
-  const [postData, setPostData] = useState(null);
+import React, { useEffect, useState } from 'react';
+import { post_API } from '../utils/constant';
+import TipTapEditor from '../components/TipTapEditor';
+import GptBlog from '../components/GptBlog';
+import { useNavigate } from 'react-router-dom';
+import { IoDocumentTextOutline } from "react-icons/io5"
+const Post = () => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [author, setAuthor] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [images,setImages] = useState('')
+  const [isShow,setIshow] = useState(true)
+  const navigate = useNavigate()
   const token = localStorage.getItem("authorization");
-  const navigate = useNavigate();
-
-  const handlenavigate = () => {
-    navigate('/login');
-  };
-
-  useEffect(() => {
-    if (!id || !token) {
-      handlenavigate();
+  const [alertType,setAlertType] = useState('success')
+  const [error, setError] = useState('')  
+  
+  const handleData = async () => {
+    if (!title || !content || !author ) {
+      setMessage({ type: 'error', text: "All fields are required!" });
       return;
     }
+    setLoading(true)
 
-    const fetchPost = async () => {
-      try {
-        const response = await fetch(`${post_API}/${id}`, {
-          method: "GET",
-          headers: {
-            Authorization: `${token}`,
-          },
-        });
+    try {
+      const formData = new FormData()
+      formData.append("title",title)
+      formData.append("content",content)
+      formData.append("author",author)
+      images.forEach((img) => {
+        formData.append('blog',img)
+      })
 
-        if (!response.ok) throw new Error("Failed to fetch");
-
-        const postJson = await response.json();
-        setPostData(postJson);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      const response = await fetch(post_API, {
+        method: "POST",
+        headers: {
+          "Authorization": `${token}`, 
+        },
+        body: formData
+      });
+      const json = await response.json()
+      if (!response.ok) {
+        throw new Error(json.message || "Failed to create post");
       }
-    };
+      setMessage({ type: 'success', text: "Post Created Successfully!" });
+      setTitle('');
+      setContent('');
+      setAuthor('');
+      setImages(null)
+     
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+      console.error("Error creating post:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
-    fetchPost();
-  }, [id, token]);
+  const handlenavigate = () => {
+      setAlertType('error')
+      setError("Login first to create blog.")
+      navigate('/login')
+  }
+    useEffect(() => {
+      if(!token){
+        handlenavigate()
+        return
+      }
+    },[])
 
-  const date = postData && new Date(postData.date).toLocaleDateString([], {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric'
-  });
-
+    setTimeout(() => {
+      setError('')
+    },5000)
   return (
-    <div className="max-w-6xl mx-auto p-4 px-8 min-h-screen bg-gray-950 text-white">
-      <div className="flex flex-col justify-between items-start gap-6 mb-6">
-        <div className="flex mt-4">
-          <p className="font-semibold -mt-4">
-            <span className="text-gray-400 flex">
-              <FiUser style={{ marginTop: '4px', marginRight: '8px' }} />
-              {postData ? postData.author || "Unknown" : <Skeleton width={100} height={20} />}
-            </span>
-          </p>
-          <p className="font-medium text-gray-400 -mt-4 flex">
-            <span className="mx-2">
-              <FiCalendar style={{ marginTop: '4px', marginLeft: '8px' }} />
-            </span>
-            {postData ? date : <Skeleton width={120} height={20} />}
-          </p>
-        </div>
+    <div className="min-h-screen flex flex-col items-center border border-transparent rounded-md mx-2 md:mx-60 my-8 text-white md:p-6 p-4">
+      <div className="w-full max-w-3xl md:p-6 rounded-lg shadow-lg md:bg-gray-900">
+        <h1 className="text-2xl font-bold text-center flex my-4"><span className='bg-blue-400 px-1 opacity-60 rounded-md'><IoDocumentTextOutline style={{marginTop:'4px', color:'blue'}}/></span> <span className='mx-2'>Create a New Post</span></h1>
 
-        {postData ? (
-          <h1 className="text-3xl md:text-4xl font-bold flex-1">{postData.title}</h1>
-        ) : (
-          <Skeleton variant="text" width="80%" height={40} />
+        {message && (
+          <p className={`mb-4 text-center font-semibold ${message.type === 'error' ? 'text-red-500' : 'text-green-500'}`}>
+            {message.text}
+          </p>
         )}
-
-        <div className="flex justify-evenly border-b border-b-gray-700 pb-8 w-full">
-          <p className="flex"><IoMdHeartEmpty className="mt-1 mr-2" /> Like</p>
-          <p className="flex mx-6"><GoBookmark className="mt-1 mr-2" /> Save</p>
-          <p className="flex mx-6"><LuShare2 className="mt-1 mr-2" /> Share</p>
+        <div className="flex mt-8 bg-gray-900 rounded-md overflow-hidden border border-gray-700">
+          <button
+            onClick={() => setIshow(true)}
+            className={`w-1/2 py-2 cursor-pointer text-sm md:text-base font-semibold transition-all duration-300 ${
+              isShow ? 'bg-gray-900 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'
+            }`}
+          >
+            Manual Creation
+          </button>
+          <button
+            onClick={() => setIshow(false)}
+            className={`cursor-pointer w-1/2 py-2 text-sm md:text-base font-semibold transition-all duration-300 ${
+              !isShow ? 'bg-gray-900 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'
+            }`}
+          >
+            AI Generation
+          </button>
         </div>
-      </div>
-
-      <div className="flex flex-wrap gap-4">
-        {postData ? (
-          Array.isArray(postData.image) && postData.image.length > 0 ? (
-            postData.image.map((imgUrl, index) => (
-              <img
-                key={index}
-                src={imgUrl}
-                alt={`Post Image ${index + 1}`}
-                className="w-80 object-cover rounded-lg shadow-md max-h-80 my-2 md:mx-4"
+        {isShow ? (<div className="flex flex-col space-y-4 my-4">
+          <div className='flex flex-col'>
+              <label className='font-semibold text-lg mt-4'>Post Title</label>
+              <input 
+                type="text" 
+                value={title} 
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Enter an engaging title for your post" 
+                className="px-4 py-2 rounded-lg bg-gray-900 text-white border border-gray-700"
               />
-            ))
-          ) : (
-            <img
-              src={sample_image}
-              alt="Default Post"
-              className="w-96 h-80 object-cover rounded-lg shadow-md md:mx-4"
-            />
-          )
-        ) : (
-          Array.from({ length: 2 }).map((_, i) => (
-            <Skeleton key={i} variant="rectangular" width={320} height={240} className="rounded-lg" />
-          ))
-        )}
-      </div>
+          </div>
+          <div>
+            <label className='font-semibold text-lg'>Content</label>
+            <TipTapEditor content={content} setContent={setContent} />
+          </div>
 
-      <div className="mt-6">
-        {postData ? (
-          <div className="md:text-xl mb-4 text-wrap mx-4 prose prose-invert max-w-none">
-            {parse(he.decode(postData.content))}
+          <div className='flex flex-col my-4'>
+            <label className='font-semibold text-lg'>Author</label>
+            <input 
+              type="text" 
+              value={author} 
+              onChange={(e) => setAuthor(e.target.value)}
+              placeholder="Author" 
+              className="p-2 rounded-md bg-gray-900 text-white   border border-gray-700"
+            />
           </div>
-        ) : (
-          <div className="space-y-4 mx-4">
-            <Skeleton variant="text" width="90%" height={30} />
-            <Skeleton variant="text" width="80%" height={25} />
-            <Skeleton variant="text" width="95%" height={25} />
-            <Skeleton variant="text" width="60%" height={25} />
+          <div className='flex flex-col'>
+            <label className='font-semibold text-lg'>Image</label>
+            <input 
+            type="file" 
+            multiple
+            accept='image/*'
+            placeholder='Upload blog images'
+            onChange={(e) => setImages([...e.target.files])}
+            className='p-2 rounded bg-gray-900 text-white focus:outline-none focus:ring-2  border border-gray-700'
+          />
+          </div>
+          <div>
+            <button className=' px-4 py-2 font-semibold cursor-pointer bg-black rounded-md active:scale-95'>Cancel</button>
+            <button 
+              onClick={handleData} 
+              disabled={loading}
+              className={`py-2 px-6 bg-gradient-to-r from-blue-700 to-purple-700 rounded font-semibold transition-colors cursor-pointer mx-4 active:scale-95 ${
+                loading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+            {loading ? "Publishing..." : "Publish Post"}
+          </button>
+          </div>
+          
+        </div>):<GptBlog/>}
+      </div>
+      {error && (
+          <div className="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-50">
+            <div
+              className={`px-4 py-2 rounded-md shadow-md text-sm  
+                ${alertType === 'success' ? 'bg-white text-black' : alertType === 'error' ? 'bg-red-600' : 'bg-yellow-600'}`}
+            >
+              {error}
+            </div>
           </div>
         )}
-      </div>
+
     </div>
   );
 };
 
-export default PostView;
+export default Post
