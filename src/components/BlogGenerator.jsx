@@ -8,6 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import parse from 'html-react-parser';
+import { useNavigate } from 'react-router-dom';
 
 
 const BlogGenerator = () => {
@@ -18,6 +19,11 @@ const BlogGenerator = () => {
   const keywords = useRef();
   const [loading,setLoading] = useState(false)
   const [copied,setCopied] = useState(false)
+  const navigate = useNavigate()
+  const token = localStorage.getItem('authorization')
+  console.log(token);
+  
+
 
   const ai = new GoogleGenAI({
     apiKey: import.meta.env.VITE_GPT_API_KEY
@@ -77,6 +83,11 @@ Also:
   setTimeout(() => {
     setCopied(false)
   }, 3000)
+
+  if(!token){
+    navigate('/login')
+  }
+
   return (
     <div className='min-h-screen mx-4 text-white'>
       <div className='flex flex-col justify-center items-center my-8'>
