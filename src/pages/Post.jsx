@@ -44,6 +44,9 @@ const Post = () => {
       if (!response.ok) {
         throw new Error(json.message || "Failed to create post");
       }
+      else{
+        navigate(`/post-view/${json._id}`)
+      }
       setMessage({ type: 'success', text: "Post Created Successfully!" });
       setTitle('');
       setContent('');
