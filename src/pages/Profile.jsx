@@ -103,6 +103,11 @@ const Profile = () => {
     fetchUserPosts()
   }, []);
 
+  if(!token){
+    // alert('Please Login first.')
+    navigate('/login')
+  }
+
   return (
     <div className="min-h-screen flex flex-col md:mx-40  text-white py-10 gap-10">
       <div className="flex flex-col items-center">
