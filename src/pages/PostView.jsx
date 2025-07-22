@@ -80,15 +80,10 @@ const PostView = () => {
         </div>
 
         <h1 className="text-3xl md:text-4xl font-bold">{postData.title}</h1>
-
-        <div className="flex flex-wrap gap-6 border-b border-gray-700 pb-8">
-          <p className="flex items-center gap-2"><IoMdHeartEmpty /> Like</p>
-          <p className="flex items-center gap-2"><GoBookmark /> Save</p>
-          <p className="flex items-center gap-2"><LuShare2 /> Share</p>
-        </div>
+        
       </div>
 
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 border-t border-t-gray-700 py-8">
         <div className="flex flex-wrap gap-4 justify-center">
           {Array.isArray(postData.image) && postData.image.length > 0 ? (
             postData.image.map((imgUrl, index) => (
