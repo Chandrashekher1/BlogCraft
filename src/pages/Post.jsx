@@ -143,7 +143,7 @@ const Post = () => {
             <button 
               onClick={handleData} 
               disabled={loading}
-              className={`py-2 px-6 bg-gradient-to-r from-blue-700 to-purple-700 rounded font-semibold transition-colors cursor-pointer mx-4 active:scale-95 ${
+              className={`py-2 px-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded font-semibold transition-colors cursor-pointer mx-4 active:scale-95 ${
                 loading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
               }`}
             >
