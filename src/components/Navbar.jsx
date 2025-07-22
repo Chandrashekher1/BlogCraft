@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { CiPen } from "react-icons/ci";
 import { FiUser } from "react-icons/fi";
 import { MdOutlineWbSunny } from "react-icons/md";
+import { FaRobot } from 'react-icons/fa';
 
 const Navbar = () => {
   const [token, setToken] = useState(localStorage.getItem("authorization"))
@@ -37,13 +38,8 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <ul className="hidden md:flex space-x-6 text-lg">
           
-          <button>
-            <li className='cursor-pointer' onClick={scrollToTop} ref={topRef}><MdOutlineWbSunny style={{}}/></li>
-            
-          </button>
-          
-          <Link to="/">
-            <li className='cursor-pointer border border-transparent hover:border-white px-6 py-2 rounded-lg' onClick={scrollToTop} ref={topRef}>Home</li>
+          <Link to="/blog-generator">
+            <button className='cursor-pointer border border-transparent hover:border-white px-6 py-2 rounded-lg flex' onClick={scrollToTop} ref={topRef}> <span className='my-1 mx-2'>{<FaRobot />}</span> AI Writer</button>
           </Link>
           
           <Link to="/create-post" onClick={scrollToTop}>
@@ -53,7 +49,13 @@ const Navbar = () => {
             <button className="text-xl flex cursor-pointer ">
             {token ? 
               <div>
-                {userImage ? (<img src={userImage} alt="" className='rounded-full w-10 h-10 object-cover' />) : <span className='border rounded-full border-transparent bg-gray-900 flex p-2 px-3'><FiUser style={{marginTop:'4px'}}/></span> }
+                 {userImage && userImage.trim() !== "" ? (
+                  <img src={userImage} alt="User" className='rounded-full w-10 h-10 object-cover' />
+                ) : (
+                  <span className='border rounded-full border-transparent bg-gray-900 flex p-2 px-3'>
+                    <FiUser style={{ marginTop: '4px' }} />
+                  </span>
+                )}
               </div> : 
               <span className='flex '><FiUser style={{marginTop:'4px', marginRight:'8px'}}/>Sign In</span> }
           </button>
@@ -61,12 +63,17 @@ const Navbar = () => {
         </ul>
         <div className='flex '>
           
-
         <div className="md:hidden  flex items-center">
           <button className="text-xl md:hidden flex" onClick={handleAuthClick}>
             {token ? 
             <div>
-                {userImage ? (<img src={userImage} alt="" className='rounded-full w-10 h-10 object-cover' />) : <span className='border rounded-full border-transparent bg-gray-900 flex p-2 px-3'><FiUser style={{marginTop:'4px'}}/></span> }
+                {userImage && userImage.trim() !== "" ? (
+                  <img src={userImage} alt="User" className='rounded-full w-10 h-10 object-cover' />
+                ) : (
+                  <span className='border rounded-full border-transparent bg-gray-900 flex p-2 px-3'>
+                    <FiUser style={{ marginTop: '4px' }} />
+                  </span>
+                )}
             </div> : 
             <span className='flex'><FiUser style={{marginTop:'4px', marginRight:'8px'}}/>Sign In</span> }
           </button>
