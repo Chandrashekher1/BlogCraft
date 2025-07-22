@@ -66,7 +66,7 @@ const Postcard = () => {
               <h1 className="text-lg sm:text-xl font-bold mt-4">{post.title}</h1>
               <p className="mt-2 text-gray-300 ">{parse(he.decode(post.content.slice(0, 100)))}...</p>
               <h2 className="text-sm text-gray-400 mt-1">By {post.author}</h2>
-              <button className='border border-gray-700 px-2 py-2 rounded-md my-4 active:scale-105 cursor-pointer flex'  onClick={() => handlePostClick(post._id)} >Read more {<IoIosArrowRoundForward style={{marginTop:'6px',marginLeft:'4px', color:'white'}}/>}</button>
+              <button className='border border-gray-700 px-2 py-2 rounded-md my-4 active:scale-105 cursor-pointer flex' >Read more {<IoIosArrowRoundForward style={{marginTop:'6px',marginLeft:'4px', color:'white'}}/>}</button>
             </div>
             <img 
               src={post?.image?.length > 0 ? post.image[0] : "https://www.hexaphortechnologies.co.in/service_img/1687797021.png"}
