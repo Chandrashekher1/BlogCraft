@@ -6,6 +6,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { MdContentCopy } from 'react-icons/md';
 import parse from 'html-react-parser';
 import he from 'he'
+import { useNavigate } from 'react-router-dom';
 
 const GptBlog = () => {
   const [content, setContent] = useState('');
@@ -14,14 +15,18 @@ const GptBlog = () => {
   const [copied,setCopied] = useState(false)
   const [alertType, setAlertType] = useState('success');
   const [message, setMessage] = useState('')
+  const navigate = useNavigate()
 
   const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GPT_API_KEY});
-
-
   const handleCopied =() => {
     setCopied(true)
     setAlertType('success')
     setMessage('Copied to clipboard')
+  }
+
+  const handleReset = () => {
+    setContent('')
+    query.current.value = ''
   }
 
   async function main() {
@@ -82,12 +87,18 @@ Also add Topic with header, content with different header and write below it and
         <span className='text-gray-400'>Describe what you want the AI to write about</span>
       </div>
       <button 
-        onClick={() =>main()}
-        disabled={isLoading}
-        className='py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-md px-8 mx-2 cursor-pointer hover:bg-blue-500 font-semibold flex'
+        onClick={main}
+        disabled={isLoading || content}
+        className={`py-2 rounded-md px-8 mx-2 font-semibold flex items-center 
+          ${isLoading || content
+            ? 'bg-gray-500 cursor-not-allowed' 
+            : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-pink-700 cursor-pointer'
+          }`}
       >
-       <BsStars style={{marginTop:'4px',marginRight:'4px'}}/> {isLoading ? "Generating..." : "Generate with AI"}
+        <BsStars className="mr-2" />
+        {isLoading ? "Generating..." : content ? "Generated" : "Generate with AI"}
       </button>
+
       { content? (<div className='w-full rounded-md border border-dashed border-pink-700 bg-gray-800 my-4 overflow-y-auto p-4 text-white'>
           <h1 className='font-semibold text-lg text-pink-200'>Generated Content Preview</h1>
           <h2 className='text-pink-500 mt-4'>Title: </h2>
@@ -101,8 +112,7 @@ Also add Topic with header, content with different header and write below it and
           </div>
          <div className='border-b border-b-pink-700 my-4'></div>
          <div className='my-4 flex justify-end'>
-          <button className='bg-black px-4 py-1 rounded-md mx-2 cursor-pointer'>Reset</button>
-          <button className='bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-1 rounded-md font-semibold cursor-pointer'>Publish AI Post</button>
+          <button className='bg-black px-4 py-1 rounded-md mx-2 cursor-pointer' onClick={handleReset}>Reset</button>
          </div>
       </div>) : null }
         {message && (
