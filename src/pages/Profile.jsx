@@ -227,7 +227,7 @@ const Profile = () => {
           </div> : 
           <div>
             {/* {savePost} */}
-            <p>No saved post</p>
+            <p className='text-center text-gray-400'>No saved post</p>
           </div>
           }
         </section>
