@@ -15,6 +15,7 @@ const GptBlog = () => {
   const [copied,setCopied] = useState(false)
   const [alertType, setAlertType] = useState('success');
   const [message, setMessage] = useState('')
+  const token = localStorage.getItem('authorization')
   const navigate = useNavigate()
 
   const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GPT_API_KEY});
@@ -74,6 +75,10 @@ Also add Topic with header, content with different header and write below it and
         return () => clearTimeout(timer);
       }
     }, [copied, message]);
+
+    if(!token){
+      navigate('/login')
+    }
 
     return (
     <div className=''>
