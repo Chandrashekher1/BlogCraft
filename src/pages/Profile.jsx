@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { allPost_API, post_API, profile_APi } from '../utils/constant'
 import parse from 'html-react-parser';
 import TipTapEditor from '../components/TipTapEditor';
 import { FaUserCircle } from "react-icons/fa";
 import he from'he'
+import AuthContext from '../context/AuthContext';
 
 const Profile = () => {
   const token = localStorage.getItem("authorization");
@@ -17,13 +18,10 @@ const Profile = () => {
   const [editTitle, setEditTitle] = useState('');
   const navigate = useNavigate();
   const [isShow,setIshow] = useState(true)
-
+  const {logout} = useContext(AuthContext)
   const handleLogout = () => {
-    localStorage.removeItem("authorization");
-    localStorage.removeItem("userId");
-    localStorage.removeItem('userImage')
+    logout()
     navigate("/login");
-    location.reload();
   };
 
   const fetchUserData = async () => {
@@ -132,7 +130,7 @@ const Profile = () => {
             {isLoading ? (
               <div className="w-44 h-5 bg-gray-700 rounded-md animate-pulse mx-2"></div>
             ) : (
-              <a href="#"><span className="text-gray-300 mx-2">{userData?.data?.email}</span></a>
+              <a href="mailto:cpsaw999041@gmail.com"><span className="text-gray-300 mx-2">{userData?.data?.email}</span></a>
             )}
           </h2>
 
