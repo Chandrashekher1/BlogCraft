@@ -31,7 +31,7 @@ const Login = () => {
       const token = response.headers.get("authorization");
       if (response.ok) {
         login(token,data?.image, data._id)
-        navigate('/profile')
+        navigate('/')
 
       } else {
         alert('Guest login failed');
@@ -74,12 +74,10 @@ const Login = () => {
     }
     const data = await response.json();
 
-    console.log(data);
-    
     const token = response.headers.get("authorization");
     if (token) {
       login(token,data?.image, data._id)
-      navigate("/profile");
+      navigate("/");
     } else {
       throw new Error("No token received from server");
     }
