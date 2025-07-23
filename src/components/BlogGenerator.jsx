@@ -7,8 +7,8 @@ import { GoLightBulb } from "react-icons/go";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import parse from 'html-react-parser';
 import { useNavigate } from 'react-router-dom';
+import Quill from './Quill';
 
 
 const BlogGenerator = () => {
@@ -21,9 +21,6 @@ const BlogGenerator = () => {
   const [copied,setCopied] = useState(false)
   const navigate = useNavigate()
   const token = localStorage.getItem('authorization')
-  console.log(token);
-  
-
 
   const ai = new GoogleGenAI({
     apiKey: import.meta.env.VITE_GPT_API_KEY
@@ -163,14 +160,11 @@ Also:
       <div className='my-8 flex flex-col items-center border mx-2 border-gray-800 rounded-md p-4 md:w-[30vw] md:mx-4 md:my-0'>
         <p className='flex  text-xl font-bold mb-4'>
           <FaRobot style={{ marginTop: '4px', marginRight: '8px' }} /> <span>Generated Content</span>
-          
-
-          
         </p>
 
         {!loading ? (
           <div>
-            <p className="w-full border-t pt-4 border-t-gray-800 max-h-[400px] overflow-y-auto">{parse(content)}</p>
+           {content &&  <Quill content={content}/>}
             {content &&  
               <CopyToClipboard text={content} onCopy={() => setCopied(true)} >
                   <button className='border border-gray-900 px-4 py-1 flex rounded-md text-sm cursor-pointer my-4'><MdContentCopy style={{marginTop:'4px'}}/> <span>Copy</span></button>
