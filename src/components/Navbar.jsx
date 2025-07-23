@@ -32,7 +32,7 @@ const Navbar = () => {
           
           
           <Link to="/blog-generator">
-            <button className='cursor-pointer border border-transparent hover:border-white px-6 py-2 rounded-lg flex' onClick={scrollToTop} ref={topRef}> <span className='my-1 mx-2'>{<FaRobot />}</span> AI Writer</button>
+            <button className='cursor-pointer border border-transparent hover:border-white px-6 py-2 rounded-lg flex' onClick={scrollToTop} ref={topRef}> <span className='my-1 '>{<FaRobot />}</span> AI Writer</button>
           </Link>
           
           <Link to="/create-post" onClick={scrollToTop}>
