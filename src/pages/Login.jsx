@@ -15,7 +15,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const {login} = useContext(AuthContext)
-
   const handleSignUp = () => setIsSignIn(!isSignIn);
 
   const handleGuestLogin = async () => {
@@ -159,7 +158,7 @@ const Login = () => {
 
         </form>
         <div>
-            <button className="my-6 cursor-pointer flex font-semibold border border-gray-700 bg-gray-800 rounded-md p-2  active:scale-95" onClick={handleGuestLogin}><FiUser className="my-1 mx-2"/>{`${loading ? 'Login...' : 'Login '}`}</button>
+            <button className="my-6 cursor-pointer flex font-semibold border border-gray-700 bg-gray-800 rounded-md p-2  active:scale-95" onClick={handleGuestLogin}><FiUser className="my-1 mx-2"/>{`${loading ? 'Login...' : 'Login as Guest'}`}</button>
           </div>
       </div>
     </div>
