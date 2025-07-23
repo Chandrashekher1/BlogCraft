@@ -9,9 +9,11 @@ const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("")
+  const [loading ,setLoading] = useState(false)
   const [image,setImage] = useState(null)
   const navigate = useNavigate();
+
   const {login} = useContext(AuthContext)
 
   const handleSignUp = () => setIsSignIn(!isSignIn);
@@ -26,7 +28,7 @@ const Login = () => {
           password: 'Guest@123'
         })
       });
-
+      setLoading(true)
       const data = await response.json();
       const token = response.headers.get("authorization");
       if (response.ok) {
@@ -38,8 +40,11 @@ const Login = () => {
       }
     } catch (err) {
       console.error(err);
-      alert('Something went wrong.');
-    }
+      setMessage(err.message)
+      }
+      finally{
+        setLoading(false)
+      }
   };
 
   
@@ -157,7 +162,7 @@ const Login = () => {
 
         </form>
         <div>
-            <button className="my-6 cursor-pointer flex font-semibold border border-gray-700 bg-gray-800 rounded-md p-2 " onClick={handleGuestLogin}><FiUser className="my-1 mx-2"/> Login as Guest</button>
+            <button className="my-6 cursor-pointer flex font-semibold border border-gray-700 bg-gray-800 rounded-md p-2  active:scale-95" onClick={handleGuestLogin}><FiUser className="my-1 mx-2"/>{`${loading ? 'Login...' : 'Login '}`}</button>
           </div>
       </div>
     </div>
