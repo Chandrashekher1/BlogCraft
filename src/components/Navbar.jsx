@@ -36,7 +36,7 @@ const Navbar = () => {
           </Link>
           
           <Link to="/create-post" onClick={scrollToTop}>
-            <li className='cursor-pointer border bg-white text-black px-6 py-2 rounded-lg flex '><CiPen style={{fontSize:'20px', marginTop:'4px',marginRight:'6px'}}/> Write</li>
+            <li className='cursor-pointer border bg-white text-black px-6 py-2 rounded-lg flex hover:opacity-90'><CiPen style={{fontSize:'20px', marginTop:'4px',marginRight:'6px'}}/> Write</li>
           </Link>
           <li className='rounded-lg flex my-1' onClick={handleAuthClick}>
             <button className="text-xl flex cursor-pointer ">
