@@ -1,24 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CiPen } from "react-icons/ci";
 import { FiUser } from "react-icons/fi";
 import { MdOutlineWbSunny } from "react-icons/md";
 import { FaRobot } from 'react-icons/fa';
+import AuthContext from '../context/AuthContext';
 
 const Navbar = () => {
-  const [token, setToken] = useState(localStorage.getItem("authorization"))
   const navigate = useNavigate()
   const topRef = useRef(null)
-  const userImage = localStorage.getItem('userImage')
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setToken(localStorage.getItem("authorization"));
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+  const {token,userImage} = useContext(AuthContext)
 
   const handleAuthClick = () => {
     scrollToTop()
@@ -37,6 +29,7 @@ const Navbar = () => {
     <nav className="text-white font-semibold shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <ul className="hidden md:flex space-x-6 text-lg">
+          
           
           <Link to="/blog-generator">
             <button className='cursor-pointer border border-transparent hover:border-white px-6 py-2 rounded-lg flex' onClick={scrollToTop} ref={topRef}> <span className='my-1 mx-2'>{<FaRobot />}</span> AI Writer</button>
