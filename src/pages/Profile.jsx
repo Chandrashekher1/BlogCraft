@@ -6,6 +6,7 @@ import TipTapEditor from '../components/TipTapEditor';
 import { FaUserCircle } from "react-icons/fa";
 import he from'he'
 import AuthContext from '../context/AuthContext';
+import Quill from '../components/Quill';
 
 const Profile = () => {
   const token = localStorage.getItem("authorization");
@@ -164,7 +165,7 @@ const Profile = () => {
             </div>
           </div>
 
-          {isShow ? <div className="mt-6 space-y-4  bg-opacity-40 rounded-lg "> 
+          {isShow ? <div className="mt-6 space-y-4  bg-opacity-40 rounded-lg"> 
             {userPosts.length === 0 ? (
               <p className="text-gray-400 text-center">No posts found.</p>
             ) : (
@@ -178,16 +179,16 @@ const Profile = () => {
                         onChange={(e) => setEditTitle(e.target.value)}
                         className="w-full mb-2 p-2 bg-gray-700 rounded text-white"
                       />
-                      <TipTapEditor content={editContent} setContent={setEditContent} />
+                      <Quill content={editContent} setContent={setEditContent} />
                       <div className="flex justify-between mt-2">
                         <button
-                          className="px-4 py-1 bg-green-600 rounded cursor-pointer"
+                          className="px-4 py-1 bg-gray-700 rounded cursor-pointer active:scale-95"
                           onClick={() => fetchPostEdit(post._id)}
                         >
                           Save
                         </button>
                         <button
-                          className="px-4 py-1 bg-red-600 rounded cursor-pointer"
+                          className="px-2 py-1 bg-red-600 rounded cursor-pointer active:scale-95"
                           onClick={() => setEditingPostId(null)}
                         >
                           Cancel
@@ -206,7 +207,7 @@ const Profile = () => {
                       
                       <div className="flex justify-between mt-2">
                         <button 
-                          className=" px-4 py-2 bg-gray-600 rounded-md cursor-pointer active:scale-90"
+                          className=" px-4 py-2 bg-gray-700 rounded-md cursor-pointer active:scale-95"
                           onClick={() => {
                             setEditingPostId(post._id);
                             setEditTitle(post.title);
@@ -216,7 +217,7 @@ const Profile = () => {
                           Edit
                         </button>
                         <button 
-                          className="p-1 bg-red-700 rounded-md cursor-pointer hover:bg-red-600"
+                          className="p-1 px-2 bg-red-600 rounded-md cursor-pointer hover:bg-red-500 active:scale-95"
                           onClick={() => fetchPostDelete(post._id)}
                         >
                           Delete
