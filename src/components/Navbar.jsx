@@ -57,6 +57,8 @@ const Navbar = () => {
         <div className='flex '>
           
         <div className="md:hidden  flex items-center">
+          <button className='cursor-pointer p-1 mx-4 justify-start rounded-full flex hover:opacity-90 border border-transparent bg-gray-900' onClick={() => navigate('/blog-generator')} ref={topRef}> <span className='my-1 mx-2'>{<FaRobot />}</span></button>
+
           <button className="text-xl md:hidden flex" onClick={handleAuthClick}>
             {token ? 
             <div>
@@ -68,7 +70,7 @@ const Navbar = () => {
                   </span>
                 )}
             </div> : 
-            <span className='flex'><FiUser style={{marginTop:'4px', marginRight:'8px'}}/>Sign In</span> }
+            <span className='flex'><FiUser style={{marginTop:'4px', marginRight:'8px'}}/></span> }
           </button>
         </div>
         </div>   
