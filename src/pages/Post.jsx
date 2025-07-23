@@ -4,6 +4,7 @@ import TipTapEditor from '../components/TipTapEditor';
 import GptBlog from '../components/GptBlog';
 import { useNavigate } from 'react-router-dom';
 import { IoDocumentTextOutline } from "react-icons/io5"
+import Quill from '../components/Quill';
 const Post = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -117,7 +118,7 @@ const Post = () => {
           </div>
           <div>
             <label className='font-semibold text-lg'>Content</label>
-            <TipTapEditor content={content} setContent={setContent} />
+            <Quill content={content} setContent={setContent} />
           </div>
 
           <div className='flex flex-col my-4'>
