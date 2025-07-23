@@ -38,7 +38,7 @@ const Home = () => {
         <span className='border bg-zinc-900 p-4 rounded-full border-transparent'>{<FaRobot style={{color:'white'}}/>}</span>
         <h1 className='font-bold text-lg text-white my-2 md:text-3xl'>Try Our AI Blog Generator</h1>
         <p className='text-gray-400 text-center md:px-16 md:my-4'>Writer's block? Let AI help you create compelling blog content in seconds. Just provide a topic, and our AI will craft a complete blog post for you. </p>
-        <button className='flex bg-white px-6 py-2 rounded-md text-black font-semibold my-4 cursor-pointer' onClick={() => navigate('/blog-generator')}><BsStars style={{marginTop:'4px',marginRight:'4px'}}/> Generate with AI</button>
+        <button className='flex bg-white px-6 py-2 rounded-md text-black font-semibold my-4 cursor-pointer hover:opacity-90' onClick={() => navigate('/blog-generator')}><BsStars style={{marginTop:'4px',marginRight:'4px'}}/> Generate with AI</button>
       </div>) : null}
 
       <div className="md:mx-24 mt-16">
