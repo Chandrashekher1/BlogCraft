@@ -7,6 +7,8 @@ import { MdContentCopy } from 'react-icons/md';
 import parse from 'html-react-parser';
 import he from 'he'
 import { useNavigate } from 'react-router-dom';
+import Quill from './Quill';
+
 
 const GptBlog = () => {
   const [content, setContent] = useState('');
@@ -113,7 +115,8 @@ Also add Topic with header, content with different header and write below it and
                   </CopyToClipboard>     
             </span></p>
           <div className='prose prose-invert bg-gray-900 text-white max-h-[500px] overflow-y-auto w-full p-6 mt-4 rounded-md'>
-            {parse(he.decode(content))}
+            <Quill content={he.decode(content)}/>
+           
           </div>
          <div className='border-b border-b-pink-700 my-4'></div>
          <div className='my-4 flex justify-end'>
