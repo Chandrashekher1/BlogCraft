@@ -28,7 +28,7 @@ const Quill = ({ content = '', setContent = () => {} }) => {
   };
 
   return (
-    <div>
+    <div style={{ height: '50%', overflowY: 'auto' }}>
       <ReactQuill
         modules={modules}
         theme="snow"
