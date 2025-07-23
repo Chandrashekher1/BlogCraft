@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, {  useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Login_API, Register_API } from "../utils/constant";
 import { FiUser } from "react-icons/fi";
+import AuthContext from "../context/AuthContext";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -11,6 +12,7 @@ const Login = () => {
   const [message, setMessage] = useState("");
   const [image,setImage] = useState(null)
   const navigate = useNavigate();
+  const {login} = useContext(AuthContext)
 
   const handleSignUp = () => setIsSignIn(!isSignIn);
 
@@ -26,15 +28,11 @@ const Login = () => {
       });
 
       const data = await response.json();
-      console.log(data);
-      
       const token = response.headers.get("authorization");
       if (response.ok) {
-        localStorage.setItem("authorization", token); 
-        localStorage.setItem("userId", data._id); 
-        localStorage.setItem('userImage',data?.image)
-        navigate('/');
-        location.reload()
+        login(token,data?.image, data._id)
+        navigate('/profile')
+
       } else {
         alert('Guest login failed');
       }
@@ -44,6 +42,7 @@ const Login = () => {
     }
   };
 
+  
 
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -74,17 +73,13 @@ const Login = () => {
       });
     }
     const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Operation failed");
-    }
 
+    console.log(data);
+    
     const token = response.headers.get("authorization");
     if (token) {
-      localStorage.setItem("authorization", token);
-      localStorage.setItem("userId", data._id); 
-      localStorage.setItem('userImage',data?.image)
+      login(token,data?.image, data._id)
       navigate("/profile");
-      location.reload();
     } else {
       throw new Error("No token received from server");
     }
