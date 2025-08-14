@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Login_API, Register_API } from "../utils/constant";
 import { FiUser } from "react-icons/fi";
 import AuthContext from "../context/AuthContext";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -48,6 +51,7 @@ const Login = () => {
  const handleSubmit = async (e) => {
   e.preventDefault();
   setMessage("");
+  setLoading(true); // Start loading here
 
   try {
     let response;
@@ -67,17 +71,16 @@ const Login = () => {
     } else {
       response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
     }
-    const data = await response.json();
 
+    const data = await response.json();
     const token = response.headers.get("authorization");
+
     if (token) {
-      login(token,data?.image, data._id)
+      login(token, data?.image, data._id);
       navigate("/");
     } else {
       throw new Error("No token received from server");
@@ -85,8 +88,11 @@ const Login = () => {
   } catch (error) {
     console.error("Error:", error.message);
     setMessage(error.message);
+  } finally {
+    setLoading(false); // Stop loading here
   }
 };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
@@ -138,27 +144,47 @@ const Login = () => {
           {message && <p className="text-red-500 text-sm mx-2 mt-2">{message}</p>}
 
           <button
-            type="submit"
-            className="mt-6 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 rounded-lg transition-all shadow-md  cursor-pointer"
-          >
-            {isSignIn ? "Register" : "Proceed"}
-          </button>
+              type="submit"
+              className="mt-6 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 rounded-lg transition-all shadow-md cursor-pointer flex items-center justify-center"
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress size={20} color="inherit" />
+              ) : (
+                isSignIn ? "Register" : "Proceed"
+              )}
+            </button>
+
           
           <p className="mt-6 text-sm text-center">
             {isSignIn ? "Already have an account?" : "Haven't registered yet?"}{" "}
-            <span
+            <button
               className="text-gray-500 font-semibold cursor-pointer underline hover:text-gray-400"
               onClick={handleSignUp}
             >
               {isSignIn ? "Login" : "Register"}
-            </span>
+            </button>
           </p>
           
             
 
         </form>
         <div>
-            <button className="my-6 cursor-pointer flex font-semibold border border-gray-700 bg-gray-800 rounded-md p-2  active:scale-95" onClick={handleGuestLogin}><FiUser className="my-1 mx-2"/>{`${loading ? 'Loading...' : 'Login as Guest'}`}</button>
+            <button
+              className="my-6 cursor-pointer flex font-semibold border border-gray-700 bg-gray-800 rounded-md p-2 items-center justify-center"
+              onClick={handleGuestLogin}
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress size={20} color="inherit" />
+              ) : (
+                <>
+                  <FiUser className="my-1 mx-2" />
+                  Login as Guest
+                </>
+              )}
+            </button>
+
           </div>
       </div>
     </div>
