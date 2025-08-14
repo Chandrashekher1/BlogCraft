@@ -139,7 +139,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="mt-6 bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition-all shadow-md active:scale-95 cursor-pointer"
+            className="mt-6 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 rounded-lg transition-all shadow-md  cursor-pointer"
           >
             {isSignIn ? "Register" : "Proceed"}
           </button>
@@ -147,7 +147,7 @@ const Login = () => {
           <p className="mt-6 text-sm text-center">
             {isSignIn ? "Already have an account?" : "Haven't registered yet?"}{" "}
             <span
-              className="text-blue-700 font-semibold cursor-pointer underline hover:text-blue-600"
+              className="text-gray-500 font-semibold cursor-pointer underline hover:text-gray-400"
               onClick={handleSignUp}
             >
               {isSignIn ? "Login" : "Register"}
