@@ -5,6 +5,7 @@ import GptBlog from '../components/GptBlog';
 import { useNavigate } from 'react-router-dom';
 import { IoDocumentTextOutline } from "react-icons/io5"
 import Quill from '../components/Quill';
+
 const Post = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');

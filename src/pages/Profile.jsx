@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { allPost_API, post_API, profile_APi } from '../utils/constant'
 import parse from 'html-react-parser';
-import TipTapEditor from '../components/TipTapEditor';
 import { FaUserCircle } from "react-icons/fa";
 import he from'he'
 import AuthContext from '../context/AuthContext';
@@ -123,7 +122,7 @@ const Profile = () => {
             {isLoading ? (
               <div className="w-32 h-5 bg-gray-700 rounded-md animate-pulse mx-2"></div>
             ) : (
-              <span className="text-cyan-400 mx-2">{userData?.data?.name}</span>
+              <span className="text-gray-200 mx-2">{userData?.data?.name}</span>
             )}
           </h1>
 
@@ -136,7 +135,7 @@ const Profile = () => {
           </h2>
 
           <button 
-            className="mt-8 mx-16 bg-red-600 hover:bg-red-700 transition-all duration-300 text-white items-center text-lg font-semibold px-6 py-3 rounded-lg shadow-lg active:scale-95 cursor-pointer"
+            className="mt-8 mx-16 bg-red-600 hover:bg-red-700 transition-all duration-300 text-white items-center  font-semibold px-2 py-1 rounded-md shadow-lg active:scale-95 cursor-pointer"
             onClick={handleLogout}
           >
             Logout
@@ -145,10 +144,10 @@ const Profile = () => {
       </div>
         <section className="px-2 mx-4">
           <div className="w-full flex justify-center my-6">
-            <div className="flex bg-gradient-to-r from-black to-cyan-900 p-1 rounded-full shadow-lg w-fit">
+            <div className="flex bg-gradient-to-r from-black to-gray-900 p-1 rounded-full shadow-lg w-fit">
               <button
                 className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer ${
-                  isShow ? 'bg-cyan-500 text-black shadow-md' : 'text-white hover:text-cyan-400'
+                  isShow ? 'bg-gray-500 text-black shadow-md' : 'text-white hover:text-gray-400'
                 }`}
                 onClick={() => setIshow(true)}
               >
@@ -156,7 +155,7 @@ const Profile = () => {
               </button>
               <button
                 className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer ${
-                  !isShow ? 'bg-cyan-500 text-black shadow-md' : 'text-white hover:text-cyan-400'
+                  !isShow ? 'bg-gray-500 text-black shadow-md' : 'text-white hover:text-gray-400'
                 }`}
                 onClick={() => setIshow(false)}
               >
