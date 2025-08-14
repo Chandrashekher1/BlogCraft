@@ -14,6 +14,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("")
   const [loading ,setLoading] = useState(false)
+  const [loadingGuest ,setLoadingGuest] = useState(false)
+
   const [image,setImage] = useState(null)
   const navigate = useNavigate();
 
@@ -21,6 +23,7 @@ const Login = () => {
   const handleSignUp = () => setIsSignIn(!isSignIn);
 
   const handleGuestLogin = async () => {
+    setLoadingGuest(true)
     try {
       const response = await fetch(Login_API, {
         method: 'POST',
@@ -30,7 +33,7 @@ const Login = () => {
           password: 'Guest@123'
         })
       });
-      setLoading(true)
+      setLoadingGuest(true)
       const data = await response.json();
       const token = response.headers.get("authorization");
       if (response.ok) {
@@ -45,13 +48,13 @@ const Login = () => {
       setMessage(err.message)
       }
       finally{
-        setLoading(false)
+        setLoadingGuest(false)
       }
   };
  const handleSubmit = async (e) => {
   e.preventDefault();
   setMessage("");
-  setLoading(true); // Start loading here
+  setLoading(true);
 
   try {
     let response;
@@ -89,9 +92,9 @@ const Login = () => {
     console.error("Error:", error.message);
     setMessage(error.message);
   } finally {
-    setLoading(false); // Stop loading here
+    setLoading(false)
   }
-};
+}
 
 
   return (
@@ -173,9 +176,9 @@ const Login = () => {
             <button
               className="my-6 cursor-pointer flex font-semibold border border-gray-700 bg-gray-800 rounded-md p-2 items-center justify-center"
               onClick={handleGuestLogin}
-              disabled={loading}
+              disabled={loadingGuest}
             >
-              {loading ? (
+              {loadingGuest ? (
                 <CircularProgress size={20} color="inherit" />
               ) : (
                 <>
