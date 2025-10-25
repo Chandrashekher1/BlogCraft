@@ -25,7 +25,9 @@ function App() {
   }
 
   return (
+      
           <Router>
+            <Analytics />
       <div className='text-white font-roboto bg-gray-950' >
         <Header/>
         <div className='font-roboto'>
