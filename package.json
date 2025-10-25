@@ -20,6 +20,7 @@
     "@tiptap/extension-underline": "^2.22.3",
     "@tiptap/react": "^2.22.3",
     "@tiptap/starter-kit": "^2.22.3",
+    "@vercel/analytics": "^1.5.0",
     "enviroment": "^1.0.0",
     "framer-motion": "^12.18.1",
     "he": "^1.2.0",
