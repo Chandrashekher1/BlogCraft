@@ -10,6 +10,7 @@ import Profile from './pages/Profile'
 import PostView from './pages/PostView'
 import useOnlineStatus from './utils/useOnlinestatus'
 import BlogGenerator from './components/BlogGenerator'
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
   }
 
   return (
-    <Router>
+          <Router>
       <div className='text-white font-roboto bg-gray-950' >
         <Header/>
         <div className='font-roboto'>
@@ -40,6 +41,7 @@ function App() {
       <Footer/>
       </div>
     </Router>
+    
   )
 }
 
