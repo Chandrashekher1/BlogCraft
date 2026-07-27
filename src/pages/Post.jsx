@@ -1,176 +1,261 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { post_API } from '../utils/constant';
-import TipTapEditor from '../components/TipTapEditor';
 import GptBlog from '../components/GptBlog';
 import { useNavigate } from 'react-router-dom';
-import { IoDocumentTextOutline } from "react-icons/io5"
+import { PenLine, Sparkles, Image, FileText, CheckCircle, AlertCircle } from 'lucide-react';
 import Quill from '../components/Quill';
+import { motion, AnimatePresence } from 'framer-motion';
+import Toast from '../components/Toast';
+import useToast from '../utils/useToast';
 
 const Post = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(null);
-  const [images,setImages] = useState('')
-  const [isShow,setIshow] = useState(true)
-  const navigate = useNavigate()
-  const token = localStorage.getItem("authorization");
-  const [alertType,setAlertType] = useState('success')
-  const [error, setError] = useState('')  
-  
+  const [images, setImages] = useState([]);
+  const [activeTab, setActiveTab] = useState('manual');
+  const navigate = useNavigate();
+  const token = localStorage.getItem('authorization');
+  const { toasts, toast, removeToast } = useToast();
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, []);
+
   const handleData = async () => {
-    if (!title || !content || !author ) {
-      setMessage({ type: 'error', text: "All fields are required!" });
+    if (!title.trim()) {
+      toast.error('Title required', 'Please add a title for your post.');
       return;
     }
-    setLoading(true)
-
+    if (!author.trim()) {
+      toast.error('Author required', 'Please enter the author name.');
+      return;
+    }
+    if (!content.trim()) {
+      toast.error('Content required', 'Please write some content before publishing.');
+      return;
+    }
+    setLoading(true);
     try {
-      const formData = new FormData()
-      formData.append("title",title)
-      formData.append("content",content)
-      formData.append("author",author)
-      images.forEach((img) => {
-        formData.append('blog',img)
-      })
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('content', content);
+      formData.append('author', author);
+      images.forEach((img) => formData.append('blog', img));
 
       const response = await fetch(post_API, {
-        method: "POST",
-        headers: {
-          "Authorization": `${token}`, 
-        },
-        body: formData
+        method: 'POST',
+        headers: { Authorization: `${token}` },
+        body: formData,
       });
-      const json = await response.json()
-      if (!response.ok) {
-        throw new Error(json.message || "Failed to create post");
-      }
-      else{
-        navigate(`/post-view/${json._id}`)
-      }
-      setMessage({ type: 'success', text: "Post Created Successfully!" });
-      setTitle('');
-      setContent('');
-      setAuthor('');
-      setImages(null)
-     
+      const json = await response.json();
+      if (!response.ok) throw new Error(json.message || 'Failed to create post');
+      toast.success('Published!', 'Your post is now live.');
+      setTimeout(() => navigate(`/post-view/${json._id}`), 900);
     } catch (error) {
-      setMessage({ type: 'error', text: error.message });
-      console.error("Error creating post:", error);
+      toast.error('Publish failed', error.message);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  const handlenavigate = () => {
-      setAlertType('error')
-      setError("Login first to create blog.")
-      navigate('/login')
-  }
-    useEffect(() => {
-      if(!token){
-        handlenavigate()
-        return
-      }
-    },[])
-
-    setTimeout(() => {
-      setError('')
-    },5000)
   return (
-    <div className="min-h-screen flex flex-col items-center border border-transparent rounded-md mx-2 md:mx-60 my-8 text-white md:p-6 p-4">
-      <div className="w-full max-w-3xl md:p-6 rounded-lg shadow-lg md:bg-gray-900">
-        <h1 className="text-2xl font-bold text-center flex my-4"><span className='bg-blue-400 px-1 opacity-60 rounded-md'><IoDocumentTextOutline style={{marginTop:'4px', color:'blue'}}/></span> <span className='mx-2'>Create a New Post</span></h1>
-
-        {message && (
-          <p className={`mb-4 text-center font-semibold ${message.type === 'error' ? 'text-red-500' : 'text-green-500'}`}>
-            {message.text}
-          </p>
-        )}
-        <div className="flex mt-8 bg-gray-900 rounded-md overflow-hidden border border-gray-700">
-          <button
-            onClick={() => setIshow(true)}
-            className={`w-1/2 py-2 cursor-pointer text-sm md:text-base font-semibold transition-all duration-300 ${
-              isShow ? 'bg-gray-900 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'
-            }`}
-          >
-            Manual Creation
-          </button>
-          <button
-            onClick={() => setIshow(false)}
-            className={`cursor-pointer w-1/2 py-2 text-sm md:text-base font-semibold transition-all duration-300 ${
-              !isShow ? 'bg-gray-900 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'
-            }`}
-          >
-            AI Generation
-          </button>
-        </div>
-        {isShow ? (<div className="flex flex-col space-y-4 my-4">
-          <div className='flex flex-col'>
-              <label className='font-semibold text-lg mt-4'>Post Title</label>
-              <input 
-                type="text" 
-                value={title} 
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Enter an engaging title for your post" 
-                className="px-4 py-2 rounded-lg bg-gray-900 text-white border border-gray-700"
-              />
-          </div>
-          <div>
-            <label className='font-semibold text-lg'>Content</label>
-            <Quill content={content} setContent={setContent} />
-          </div>
-
-          <div className='flex flex-col my-4'>
-            <label className='font-semibold text-lg'>Author</label>
-            <input 
-              type="text" 
-              value={author} 
-              onChange={(e) => setAuthor(e.target.value)}
-              placeholder="Author" 
-              className="p-2 rounded-md bg-gray-900 text-white   border border-gray-700"
-            />
-          </div>
-          <div className='flex flex-col'>
-            <label className='font-semibold text-lg'>Image</label>
-            <input 
-            type="file" 
-            multiple
-            accept='image/*'
-            placeholder='Upload blog images'
-            onChange={(e) => setImages([...e.target.files])}
-            className='p-2 rounded bg-gray-900 text-white focus:outline-none focus:ring-2  border border-gray-700'
-          />
-          </div>
-          <div>
-            <button className=' px-4 py-2 font-semibold cursor-pointer bg-black rounded-md active:scale-95'>Cancel</button>
-            <button 
-              onClick={handleData} 
-              disabled={loading}
-              className={`py-2 px-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded font-semibold transition-colors cursor-pointer mx-4 active:scale-95 ${
-                loading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-              }`}
-            >
-            {loading ? "Publishing..." : "Publish Post"}
-          </button>
-          </div>
-          
-        </div>):<GptBlog/>}
-      </div>
-      {error && (
-          <div className="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-50">
+    <div style={{ background: '#F6F4EF', minHeight: 'calc(100vh - 144px)', padding: '48px 32px 96px' }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          style={{ marginBottom: '40px' }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
             <div
-              className={`px-4 py-2 rounded-md shadow-md text-sm  
-                ${alertType === 'success' ? 'bg-white text-black' : alertType === 'error' ? 'bg-red-600' : 'bg-yellow-600'}`}
+              style={{
+                width: '40px',
+                height: '40px',
+                background: '#1D1D1B',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              {error}
+              <FileText size={18} color="#F6F4EF" strokeWidth={1.75} />
+            </div>
+            <div>
+              <h1 style={{ fontFamily: 'Instrument Serif, serif', fontSize: '28px', color: '#1D1D1B', fontWeight: 400 }}>
+                Create a Post
+              </h1>
+              <p style={{ fontSize: '14px', color: '#94948C' }}>Write something that matters</p>
             </div>
           </div>
-        )}
+        </motion.div>
 
+        {/* Tabs */}
+        <div className="tabs" style={{ marginBottom: '32px', maxWidth: '320px' }}>
+          <button className={`tab ${activeTab === 'manual' ? 'active' : ''}`} onClick={() => setActiveTab('manual')}>
+            <PenLine size={14} strokeWidth={1.75} style={{ display: 'inline', marginRight: '6px' }} />
+            Write
+          </button>
+          <button className={`tab ${activeTab === 'ai' ? 'active' : ''}`} onClick={() => setActiveTab('ai')}>
+            <Sparkles size={14} strokeWidth={1.75} style={{ display: 'inline', marginRight: '6px' }} />
+            AI Generate
+          </button>
+        </div>
+
+        {/* Content */}
+        <AnimatePresence mode="wait">
+          {activeTab === 'manual' ? (
+            <motion.div
+              key="manual"
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 12 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div
+                style={{
+                  background: '#FFFFFF',
+                  border: '1px solid #E9E4DB',
+                  borderRadius: '28px',
+                  padding: '32px',
+                  boxShadow: '0 8px 24px rgba(0,0,0,.05)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '24px',
+                }}
+              >
+                <div>
+                  <label className="label">Post Title</label>
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Write an engaging title for your story..."
+                    className="input"
+                    style={{ fontSize: '17px' }}
+                  />
+                </div>
+
+                <div>
+                  <label className="label">Author</label>
+                  <input
+                    type="text"
+                    value={author}
+                    onChange={(e) => setAuthor(e.target.value)}
+                    placeholder="Your name"
+                    className="input"
+                  />
+                </div>
+
+                <div>
+                  <label className="label">Content</label>
+                  <div style={{ border: '1px solid #E5E0D8', borderRadius: '16px', overflow: 'hidden', minHeight: '300px' }}>
+                    <Quill content={content} setContent={setContent} />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="label">Cover Images</label>
+                  <label
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      padding: '32px 16px',
+                      borderRadius: '16px',
+                      border: '1.5px dashed #D4CFC6',
+                      background: '#F6F4EF',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#A8B58A')}
+                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#D4CFC6')}
+                  >
+                    <Image size={24} color="#94948C" strokeWidth={1.75} />
+                    <span style={{ fontSize: '14px', color: '#6B6B63', fontWeight: 500 }}>
+                      {images.length > 0 ? `${images.length} file(s) selected` : 'Click to upload images'}
+                    </span>
+                    <span style={{ fontSize: '12px', color: '#94948C' }}>PNG, JPG, WEBP up to 10MB</span>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={(e) => {
+                        setImages([...e.target.files]);
+                        toast.info(`${e.target.files.length} image(s) selected`, 'Ready to attach to your post.');
+                      }}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                </div>
+
+                {/* Actions */}
+                <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                  <button className="btn btn-secondary" onClick={() => navigate('/')} style={{ height: '44px', fontSize: '14px' }}>
+                    Cancel
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleData}
+                    disabled={loading}
+                    style={{ height: '44px', fontSize: '14px', gap: '8px' }}
+                  >
+                    {loading ? (
+                      <span
+                        style={{
+                          width: '16px',
+                          height: '16px',
+                          border: '2px solid rgba(255,255,255,0.3)',
+                          borderTopColor: '#fff',
+                          borderRadius: '50%',
+                          animation: 'spin 0.7s linear infinite',
+                        }}
+                      />
+                    ) : (
+                      'Publish Post'
+                    )}
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="ai"
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -12 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div
+                style={{
+                  background: '#FFFFFF',
+                  border: '1px solid #E9E4DB',
+                  borderRadius: '28px',
+                  padding: '32px',
+                  boxShadow: '0 8px 24px rgba(0,0,0,.05)',
+                }}
+              >
+                <GptBlog />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <Toast toasts={toasts} removeToast={removeToast} />
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 };
 
-export default Post
+export default Post;

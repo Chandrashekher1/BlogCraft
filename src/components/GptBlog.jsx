@@ -1,138 +1,194 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { GoogleGenAI } from "@google/genai";
-import TipTapEditor from './TipTapEditor';
-import { BsStars } from "react-icons/bs";
+import { GoogleGenAI } from '@google/genai';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { MdContentCopy } from 'react-icons/md';
-import parse from 'html-react-parser';
-import he from 'he'
+import { Copy, Check, RefreshCw, Sparkles } from 'lucide-react';
+import he from 'he';
 import { useNavigate } from 'react-router-dom';
 import Quill from './Quill';
-
+import Toast from './Toast';
+import useToast from '../utils/useToast';
 
 const GptBlog = () => {
   const [content, setContent] = useState('');
   const query = useRef();
-  const [isLoading, setIsLoading] = useState(false)
-  const [copied,setCopied] = useState(false)
-  const [alertType, setAlertType] = useState('success');
-  const [message, setMessage] = useState('')
-  const token = localStorage.getItem('authorization')
-  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const token = localStorage.getItem('authorization');
+  const navigate = useNavigate();
+  const { toasts, toast, removeToast } = useToast();
 
-  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GPT_API_KEY});
-  const handleCopied =() => {
-    setCopied(true)
-    setAlertType('success')
-    setMessage('Copied to clipboard')
-  }
+  const getAiClient = () => {
+    const apiKey = import.meta.env.VITE_GPT_API_KEY;
+    if (!apiKey || !apiKey.trim()) {
+      throw new Error('Gemini API key is missing. Please set VITE_GPT_API_KEY in your .env file.');
+    }
+    return new GoogleGenAI({ apiKey });
+  };
+
+  const handleCopied = () => {
+    setCopied(true);
+    toast.success('Copied!', 'Content copied to clipboard.');
+    setTimeout(() => setCopied(false), 3000);
+  };
 
   const handleReset = () => {
-    setContent('')
-    query.current.value = ''
-  }
+    setContent('');
+    if (query.current) query.current.value = '';
+    toast.info('Reset', 'Ready for a new topic.');
+  };
 
   async function main() {
-    const inputText = query.current.value;
-    if (!inputText.trim()) {
-      setAlertType('error')
-      setMessage("Please enter a prompt.");
+    const inputText = query.current?.value?.trim();
+    if (!inputText) {
+      toast.error('Topic required', 'Please enter a topic for the AI to write about.');
       return;
     }
-    setIsLoading(true)
-
-    try{
+    setIsLoading(true);
+    try {
+      const ai = getAiClient();
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: 'gemini-2.5-flash',
         contents: `Write a clear and informative blog post on the topic: "${inputText}". 
-
-Break it into:
-- Introduction
-- Key sections with meaningful subheadings
-- A thoughtful conclusion
-
+Break it into: Introduction, Key sections with meaningful subheadings, A thoughtful conclusion.
 Ensure the response is written entirely in valid, semantic HTML.
-Do not include markdown or explanation—only return clean HTML content that can be directly rendered in a web editor.
-Avoid listicle or search-style formatting. Focus on storytelling, readability, and depth of content.
-Also add Topic with header, content with different header and write below it and also conclude conclusion.`
-        
+Do not include markdown or explanation—only return clean HTML content that can be directly rendered in a web editor.`,
       });
-      setContent(response.text)
-    }catch(err){
-      console.error(err)
-      setAlertType('error');
-      setMessage("Failed to generate content.");
+      setContent(response.text);
+      toast.success('Done!', 'Your blog post has been generated.');
+    } catch (err) {
+      console.error(err);
+      toast.error('Generation failed', err.message || 'Could not reach the AI. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
-    finally{
-      setIsLoading(false)
-    }}
+  }
 
-    useEffect(() => {
-      if (copied || message) {
-        const timer = setTimeout(() => {
-          setCopied(false);
-          setMessage('');
-        }, 3000);
+  useEffect(() => {
+    if (!token) navigate('/login');
+  }, []);
 
-        return () => clearTimeout(timer);
-      }
-    }, [copied, message]);
-
-    if(!token){
-      navigate('/login')
-    }
-
-    return (
-    <div className=''>
-      <div className='my-4 flex flex-col'>
-        <label className='font-semibold text-lg'>Blog Topic</label>
-        <input 
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      {/* Input */}
+      <div>
+        <label className="label">Blog Topic</label>
+        <input
           ref={query}
-          placeholder='Enter a topic for AI to generate'
-          className='px-4 py-2 text-lg bg-gray-800 rounded-md focus:outline-pink-700 text-white mt-2  '
+          placeholder="Enter a topic for AI to generate..."
+          className="input"
+          style={{ fontSize: '15px' }}
         />
-        <span className='text-gray-400'>Describe what you want the AI to write about</span>
+        <p style={{ fontSize: '13px', color: '#94948C', marginTop: '6px' }}>
+          Describe what you want the AI to write about
+        </p>
       </div>
-      <button 
-        onClick={main}
-        disabled={isLoading || content}
-        className={`py-2 rounded-md px-8 mx-2 font-semibold flex items-center 
-          ${isLoading || content
-            ? 'bg-gray-500 cursor-not-allowed' 
-            : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-pink-700 cursor-pointer'
-          }`}
-      >
-        <BsStars className="mr-2" />
-        {isLoading ? "Generating..." : content ? "Generated" : "Generate with AI"}
-      </button>
 
-      { content? (<div className='w-full rounded-md border border-dashed border-pink-700 bg-gray-800 my-4 overflow-y-auto p-4 text-white'>
-          <h1 className='font-semibold text-lg text-pink-200'>Generated Content Preview</h1>
-          <h2 className='text-pink-500 mt-4'>Title: </h2>
-          <p className='text-pink-400 mt-4'>Content: <span>
-                  <CopyToClipboard text={content} onCopy={handleCopied} >
-                          <button className='border border-gray-900 px-4 py-1 flex rounded-md text-sm cursor-pointer'><MdContentCopy style={{marginTop:'4px'}}/> <span>Copy</span></button>
-                  </CopyToClipboard>     
-            </span></p>
-          <div className='prose prose-invert bg-gray-900 text-white max-h-[500px] overflow-y-auto w-full p-6 mt-4 rounded-md'>
-            <Quill content={he.decode(content)}/>
-           
-          </div>
-         <div className='border-b border-b-pink-700 my-4'></div>
-         <div className='my-4 flex justify-end'>
-          <button className='bg-black px-4 py-1 rounded-md mx-2 cursor-pointer' onClick={handleReset}>Reset</button>
-         </div>
-      </div>) : null }
-        {message && (
-          <div className="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-50">
-            <div
-              className={`px-4 py-2 rounded-md shadow-md text-sm  
-                ${alertType === 'success' ? 'bg-white text-black' : alertType === 'error' ? 'bg-red-600' : 'bg-yellow-600'}`}
-            >
-              {message}
-            </div>
-          </div>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <button
+          onClick={main}
+          disabled={isLoading || !!content}
+          className="btn"
+          style={{
+            background: isLoading || content ? '#E5E0D8' : '#1D1D1B',
+            color: isLoading || content ? '#94948C' : '#FFFFFF',
+            cursor: isLoading || content ? 'not-allowed' : 'pointer',
+            gap: '8px',
+            height: '48px',
+          }}
+        >
+          {isLoading ? (
+            <>
+              <span
+                style={{
+                  width: '16px',
+                  height: '16px',
+                  border: '2px solid rgba(148,148,140,0.3)',
+                  borderTopColor: '#94948C',
+                  borderRadius: '50%',
+                  animation: 'spin 0.7s linear infinite',
+                }}
+              />
+              Generating...
+            </>
+          ) : content ? (
+            <>
+              <Check size={15} strokeWidth={1.75} />
+              Generated
+            </>
+          ) : (
+            <>
+              <Sparkles size={15} strokeWidth={1.75} />
+              Generate with AI
+            </>
+          )}
+        </button>
+
+        {content && (
+          <button
+            onClick={handleReset}
+            className="btn btn-secondary"
+            style={{ height: '48px', gap: '6px', fontSize: '14px' }}
+          >
+            <RefreshCw size={14} strokeWidth={1.75} />
+            Reset
+          </button>
         )}
+      </div>
+
+      {/* Content Preview */}
+      {content && (
+        <div
+          style={{
+            border: '1px solid #EAE7E2',
+            borderRadius: '16px',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '12px 16px',
+              borderBottom: '1px solid #EAE7E2',
+              background: '#F6F4EF',
+            }}
+          >
+            <span style={{ fontSize: '13px', fontWeight: 600, color: '#6B6B63' }}>
+              Generated Content
+            </span>
+            <CopyToClipboard text={content} onCopy={handleCopied}>
+              <button
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  padding: '6px 12px',
+                  borderRadius: '8px',
+                  border: '1px solid #E7E2D8',
+                  background: '#FFFFFF',
+                  color: copied ? '#7E9D63' : '#6B6B63',
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                }}
+              >
+                {copied ? <Check size={12} strokeWidth={1.75} /> : <Copy size={12} strokeWidth={1.75} />}
+                {copied ? 'Copied' : 'Copy'}
+              </button>
+            </CopyToClipboard>
+          </div>
+          <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+            <Quill content={he.decode(content)} />
+          </div>
+        </div>
+      )}
+
+      <Toast toasts={toasts} removeToast={removeToast} />
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 };

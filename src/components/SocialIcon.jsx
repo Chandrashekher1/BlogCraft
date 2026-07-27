@@ -1,35 +1,51 @@
 import React from 'react';
-import { FaTwitter, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { Twitter, Linkedin, Instagram } from 'lucide-react';
 
 const SocialIcons = () => {
-    return (
-        <div style={{ display: 'flex', gap: '30px',marginLeft:'0px', marginTop:'0px' }}>
-            <a 
-                href="https://x.com/cpsaw03" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="hover:text-cyan-400 text-gray-400"
-            >
-                <FaTwitter size={30} />
-            </a>
-            <a 
-                href="https://www.linkedin.com/in/chandrashekher-prasad-a496a2293/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="hover:text-blue-400 text-gray-400"
-            >
-                <FaLinkedin size={30} />
-            </a>
-            <a 
-                href="https://www.instagram.com/_chandrashekher_03/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="hover:text-red-600 text-gray-400"
-            >
-                <FaInstagram size={30} />
-            </a>
-        </div>
-    );
+  const socials = [
+    { href: 'https://x.com/cpsaw03', icon: Twitter, label: 'Twitter' },
+    { href: 'https://www.linkedin.com/in/chandrashekher-prasad-a496a2293/', icon: Linkedin, label: 'LinkedIn' },
+    { href: 'https://www.instagram.com/_chandrashekher_03/', icon: Instagram, label: 'Instagram' },
+  ];
+
+  return (
+    <div style={{ display: 'flex', gap: '12px' }}>
+      {socials.map(({ href, icon: Icon, label }) => (
+        <a
+          key={label}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={label}
+          style={{
+            width: '36px',
+            height: '36px',
+            borderRadius: '10px',
+            border: '1px solid #E7E2D8',
+            background: '#FFFFFF',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#6B6B63',
+            transition: 'all 0.2s ease',
+            textDecoration: 'none',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = '#F2EFE9';
+            e.currentTarget.style.color = '#1D1D1B';
+            e.currentTarget.style.borderColor = '#D4CFC6';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = '#FFFFFF';
+            e.currentTarget.style.color = '#6B6B63';
+            e.currentTarget.style.borderColor = '#E7E2D8';
+          }}
+        >
+          <Icon size={16} strokeWidth={1.75} />
+        </a>
+      ))}
+    </div>
+  );
 };
 
 export default SocialIcons;
