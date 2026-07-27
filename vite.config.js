@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://cp-blog.onrender.com', // Backend ka URL
+        target: 'https://blogcraft-backend-2uy4.onrender.com', // Updated Backend URL
         changeOrigin: true, // Origin header change karo
         secure: false, // HTTPS ke liye false, agar SSL issue aaye toh
       },
