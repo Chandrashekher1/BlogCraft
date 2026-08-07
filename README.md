@@ -21,9 +21,12 @@ BlogCraft is a modern, full-featured blogging platform that empowers users to cr
 - Deployment : Vercel and Render
 
 # View
-<img width="1848" height="876" alt="image" src="https://github.com/user-attachments/assets/674f67e3-d21b-494c-ae1c-e88e17e40996" />
+<img width="1917" height="911" alt="image" src="https://github.com/user-attachments/assets/a8880ac7-945c-454e-83e2-b5624dff79e9" />
 
-<img width="1810" height="785" alt="image" src="https://github.com/user-attachments/assets/4738a85e-f33e-4c78-bae9-729dd0794b3c" />
+<img width="1905" height="914" alt="image" src="https://github.com/user-attachments/assets/da7b2b0e-7042-463a-88ed-589431d89ebc" />
+<img width="1861" height="905" alt="image" src="https://github.com/user-attachments/assets/347a628b-ed0e-4b6f-8d40-54a3ac6e55e1" />
+
+
 
 # Getting Started
  Prerequisites
